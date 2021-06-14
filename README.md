@@ -216,34 +216,6 @@ If the dish ID is incorrect:
 	}
 
 
-Success Response
-Code: 200
-Content:
-{
-"success": true,
-"message": "Your dish quantity was successfully edited.",
-"status": 200
-}
-
-Error Response
-Code: 400
-Content:
-{
-"success": false,
-"message": "Dish quantity was not updated",
-"status": 400
-}
-
-Code: 404
-Content:
-
-{
-"success": false,
-"message": "There is no dish found with that ID.",
-"status": 404
-}
-
-
 #### Removing an item (in any quantity) from an order
 
 `PUT /orders/removeDish`
