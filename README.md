@@ -275,3 +275,40 @@ This endpoint allows you to remove an item entirely from an order.
 		"message": "Item not found so cannot be deleted from order",
 		"status": 404
 	}
+
+##### Submit final order
+
+`PUT /orders/submitOrder`
+
+This endpoint will send your order to the restaurant and cannot be taken back. 
+
+##### Data Params
+
+##### Sample Call
+
+##### Success Response
+	{
+		"success": true,
+		"message": "Order submitted",
+		"status": 200,
+		"data": [
+					{
+						"_id": "60c73afb0b5f5c23d4a61688",
+						"name": "Ashley Coles",
+						"deliveryAddress": "BA2 6AH",
+						"email": "deliciousFood@food.com",
+						"isOrderSubmitted": true,
+						"timePlaced": "2000-01-01T00:00:00.000+00:00"
+						"orderItems": [{},{}]
+					}
+				],
+		"deliveryTime": "2000-01-01T00:00:00.000+00:00"
+	}
+
+##### Error Response
+
+	{
+		"success": false,
+		"message": "The resource/s requested does not exist at the desired location.",
+		"status": 404
+	}
