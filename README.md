@@ -77,7 +77,7 @@ This endpoint allows you to create a new order.
         	"name": "Ashley Coles",
 		"deliveryAddress": "BA2 6AH",
 		"email": "deliciousFood@food.com",
-		"orderItems": ["", "", ""]
+		"orderItems": [{"menuItemId": "" , "quantity": "1"]
         }
 
 
@@ -111,7 +111,7 @@ This endpoint allows you to create a new order.
 			"email": "deliciousFood@food.com",
 			"isOrderSubmitted": false,
 			"timePlaced": "2000-01-01T00:00:00.000+00:00"
-			"orderItems": []
+			"orderItems": [{"menuItemId": "" , "quantity": "1"]
                 }
             ]
         }
