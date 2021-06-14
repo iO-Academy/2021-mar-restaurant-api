@@ -17,11 +17,21 @@ RESTful API design.
 
 Returns a JSON string of dishes (option for all dishes, and dishes by type). No authentication required.
 URL
-`GET /dishes`. return
-`GET /dishes/starters`  //returns starters. return
-`GET /dishes/mains`  //returns mains. return
-`GET /dishes/desserts`  //returns desserts. return
-`GET /dishes/refreshments`  //returns refreshments. return
+`GET /dishes`
+
+
+`GET /dishes/starters`  //returns starters
+
+
+`GET /dishes/mains`  //returns mains
+
+
+`GET /dishes/desserts`  //returns desserts
+
+
+`GET /dishes/refreshments`  //returns refreshments
+
+
 
 
 ##### Sample Call
@@ -63,10 +73,10 @@ This endpoint allows you to create a new order.
 ##### Data Params
 
         {
-            "name": "Ashley Coles",
-			"deliveryAddress": "BA2 6AH",
-			"email": "deliciousFood@food.com",
-			"orderItems": ["", "", ""]
+        	"name": "Ashley Coles",
+		"deliveryAddress": "BA2 6AH",
+		"email": "deliciousFood@food.com",
+		"orderItems": ["", "", ""]
         }
 
 
