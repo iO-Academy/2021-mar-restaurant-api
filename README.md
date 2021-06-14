@@ -83,17 +83,17 @@ This endpoint allows you to create a new order.
 
 ##### Sample Call
 
-	{
-		fetch('http://localhost:3000/orders', {
-        		"method": POST,
-        		"body": JSON.stringify(/* your data goes here */),
-        		"headers": 
-			{
-            		"content-type": "application/JSON"
-        		}
+
+	fetch('http://localhost:3000/orders', {
+        	"method": POST,
+        	"body": JSON.stringify(/* your data goes here */),
+        	"headers": 
+		{
+            	"content-type": "application/JSON"
+        	}
 			.then (res => res.json())
 			.then ((data) => {
-			//do stuff with your data
+				//do stuff with your data
 			})
    	 })
 
@@ -150,19 +150,18 @@ If the request fails to connect to the database
 	
 ##### Sample Call
 	
-	{
-     		 fetch('http://localhost:3000/orders', {
-              		"method": PUT,
-             		"body": JSON.stringify(/* your data goes here */),
-              		"headers": 
-         	{	
-                	"content-type": "application/JSON"
-              	}
-         			.then (res => res.json())
-         			.then ((data) => {
-         				//do stuff with your data
-         			})
-        })
+     	fetch('http://localhost:3000/orders', {
+              	"method": PUT,
+             	"body": JSON.stringify(/* your data goes here */),
+              	"headers": 
+         		{	
+                		"content-type": "application/JSON"
+              		}
+         				.then (res => res.json())
+         				.then ((data) => {
+         					//do stuff with your data
+         				})
+       	 })
 	
 ##### Success Response
 
@@ -187,7 +186,25 @@ If the request fails to connect to the database
 
 ##### Data Params
 
+	{
+           "_id": "60c73afb0b5f5c23d4a61688"
+           "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61688" , "quantity": 1}]
+        }
+
 ##### Sample Call
+
+	 fetch('http://localhost:3000/orders', {
+                  "method": PUT,
+                  "body": JSON.stringify(/* your data goes here */),
+                  "headers": 
+           	{  
+                   "content-type": "application/JSON"
+               	}
+                 	.then (res => res.json())
+                 	.then ((data) => {
+                  		  //do stuff with your data
+                })
+        })
 
 ##### Success Response
 
@@ -226,24 +243,23 @@ This endpoint allows you to remove an item entirely from an order.
 
 	 {
            "_id": "60c73afb0b5f5c23d4a61688"
-           "orderItems": [{"menuItemId", 1}]
+           "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61689", "quantity": 1}]
         }
 
 ##### Sample Call
 
-	{
-           fetch('http://localhost:3000/orders', {
-                  "method": DELETE,
-                  "body": JSON.stringify(/* your data goes here */),
-                  "headers": 
-           {  
+	fetch('http://localhost:3000/orders', {
+        	"method": PUT,
+                "body": JSON.stringify(/* your data goes here */),
+                "headers": 
+           	{  
                    "content-type": "application/JSON"
-               }
-                 .then (res => res.json())
-                 .then ((data) => {
-                    //do stuff with your data
-                 })
-        })
+               	}
+                 	.then (res => res.json())
+                	 .then ((data) => {
+                    		//do stuff with your data
+                	 })
+       		 })
 
 ##### Success Response
 	{
