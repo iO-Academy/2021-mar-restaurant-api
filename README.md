@@ -16,7 +16,8 @@ RESTful API design.
 #### Getting items on the menu
 
 Returns a JSON string of dishes (option for all dishes, and dishes by type). No authentication required.
-URL
+
+
 `GET /dishes`
 
 
@@ -136,61 +137,79 @@ If the request fails to connect to the database
 
 ### PUT
 
-##### Adding items to an order
+#### Adding items to an order
 
 `PUT /orders/addToOrder`
 
 ##### Data Params
-	data params to go here
+	
+	{
+        	"_id": "60c73afb0b5f5c23d4a61688"
+         	"orderItems": [{"menuItemId", 1}, {"menuItemId", 4}]
+        }
 	
 ##### Sample Call
 	
-##### 
+	{
+     		 fetch('http://localhost:3000/orders', {
+              		"method": PUT,
+             		"body": JSON.stringify(/* your data goes here */),
+              		"headers": 
+         	{	
+                	"content-type": "application/JSON"
+              	}
+         			.then (res => res.json())
+         			.then ((data) => {
+         				//do stuff with your data
+         			})
+        })
+	
+##### Success Response
 
-- Success Response
-Code: 200
+	{
+		"success": true,
+		"message": "Dish successfully added to order",
+		"status": 200,
+	}
 
-Content:
-{
-"success": true,
-"message": "Dish successfully added to order",
-"status": 200,
-}
+##### Error Response
 
-Error Response
-Code: 400
-Content:
-{
-"success": false,
-"message": "Item not found so cannot add to order",
-"status": 400
-}
+	{
+		"success": false,
+		"message": "Item not found so cannot add to order",
+		"status": 400
+	}
 
-### adding items to an order
-- URL
-  `/orders/`  //adds item to order
 
-- Method
-  DELETE
+#### Removing an item (in any quantity) from an order
 
-- Success Response
-  Code: 200
+`DELETE /orders`
 
-Content:
-{
-"success": true,
-"message": "Dish successfully deleted from order",
-"status": 200,
-}
+This endpoint allows you to remove an item entirely from an order.
 
-Error Response
-Code: 404
-Content:
-{
-"success": false,
-"message": "Item not found so cannot be deleted from order",
-"status": 404
-}
+##### Data Params
+
+
+##### Sample Call
+
+
+
+##### Success Response
+	{
+		"success": true,
+		"message": "Dish successfully deleted from order",
+		"status": 200,
+	}
+
+##### Error Response
+	
+	{
+		"success": false,
+		"message": "Item not found so cannot be deleted from order",
+		"status": 404
+	}
+	
+
 
 ### Edit quantities of dishes in orders
 - URL
