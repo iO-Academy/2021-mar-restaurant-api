@@ -33,8 +33,6 @@ Returns a JSON string of dishes (option for all dishes, and dishes by type). No 
 `GET /dishes/refreshments`  //returns refreshments
 
 
-
-
 ##### Sample Call
 	
 	fetch('http://localhost:3000/dishes')
@@ -61,6 +59,35 @@ Returns a JSON string of dishes (option for all dishes, and dishes by type). No 
 		"status": 404
 	}
 	
+#### Retrieving final order
+
+`GET /orders/:id`
+
+##### Sample Call
+
+	fetch('http://localhost:3000/orders/:id')
+		.then (res => res.json())
+		.then ((data) => {
+			//do stuff with your data
+			})
+   	 })
+
+##### Success Response
+
+	{
+		"success": true,
+		"message": "Final order successfully recieved",
+		"status": 200,
+		"data": [{}, {}, {}]
+	}
+
+##### Error Response
+
+	{
+		"success": false,
+		"message": "The resources requested do not exist at the desired location.",
+		"status": 404
+	}
 
 ### POST: 
 
@@ -134,6 +161,7 @@ If the request fails to connect to the database
             "message": "Database request failed",
             "status": 404
         }		
+
 
 ### PUT
 
@@ -284,7 +312,31 @@ This endpoint will send your order to the restaurant and cannot be taken back.
 
 ##### Data Params
 
+	 {
+           "_id": "60c73afb0b5f5c23d4a61688"
+           "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61689", "quantity": 1}]
+        }
+
+    {
+      "_id": "60c73afb0b5f5c23d4a61688"
+      "price": 12.99
+    }
+
 ##### Sample Call
+
+	fetch('http://localhost:3000/orders', {
+        	"method": PUT,
+                "body": JSON.stringify(/* your data goes here */),
+                "headers": 
+           	{  
+                   "content-type": "application/JSON"
+               	}
+                 	.then (res => res.json())
+                	 .then ((data) => {
+                    		//do stuff with your data
+                	 })
+       		 })
+
 
 ##### Success Response
 	{
@@ -312,3 +364,5 @@ This endpoint will send your order to the restaurant and cannot be taken back.
 		"message": "The resource/s requested does not exist at the desired location.",
 		"status": 404
 	}
+
+
