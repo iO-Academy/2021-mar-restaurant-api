@@ -9,7 +9,7 @@ Express.js.
 
 RESTful API design.
 
-##API Calls
+## API Calls
 
 ### GET
 
@@ -17,11 +17,11 @@ RESTful API design.
 
 Returns a JSON string of dishes (option for all dishes, and dishes by type). No authentication required.
 URL
-`GET /dishes` 
-`GET /dishes/starters` //returns starters
-`GET /dishes/mains` //returns mains
-`GET /dishes/desserts` //returns desserts
-`GET /dishes/refreshments` //returns refreshments
+`GET /dishes` \
+`GET /dishes/starters` \ //returns starters
+`GET /dishes/mains` \ //returns mains
+`GET /dishes/desserts` \ //returns desserts
+`GET /dishes/refreshments` \ //returns refreshments
 
 ##### Sample Call
 	
@@ -71,9 +71,19 @@ This endpoint allows you to create a new order.
 
 ##### Sample Call
 
-		{
-			TBC
-		}
+	{
+		fetch('http://localhost:3000/orders', {
+        		"method": POST,
+        		"body": JSON.stringify(/* your data goes here */),
+        		"headers": 
+			{
+            		"content-type": "application/JSON"
+        		}
+			.then (res => res.json())
+			.then ((data) => {
+			//do stuff with your data
+			})
+   	 })
 
 ##### Success Response
 
@@ -83,13 +93,13 @@ This endpoint allows you to create a new order.
             "status": 200,
             "data": [
                 {
-		            "_id": "60c73afb0b5f5c23d4a61688",
-					"name": "Ashley Coles",
-					"deliveryAddress": "BA2 6AH",
-					"email": "deliciousFood@food.com",
-					"isOrderSubmitted": false,
-					"timePlaced": "2000-01-01T00:00:00.000+00:00"
-					"orderItems": []
+		 	"_id": "60c73afb0b5f5c23d4a61688",
+			"name": "Ashley Coles",
+			"deliveryAddress": "BA2 6AH",
+			"email": "deliciousFood@food.com",
+			"isOrderSubmitted": false,
+			"timePlaced": "2000-01-01T00:00:00.000+00:00"
+			"orderItems": []
                 }
             ]
         }
@@ -114,9 +124,8 @@ If the request fails to connect to the database
         }		
 
 
-Adding items to an order
+##### Adding items to an order
 
-### adding items to an order
 - URL
     `/orders/addToOrder`  //adds item to order
   
