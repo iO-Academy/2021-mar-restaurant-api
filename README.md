@@ -17,11 +17,15 @@ RESTful API design.
 
 Returns a JSON string of dishes (option for all dishes, and dishes by type). No authentication required.
 URL
-`GET /dishes` \
-`GET /dishes/starters` \ //returns starters
-`GET /dishes/mains` \ //returns mains
-`GET /dishes/desserts` \ //returns desserts
-`GET /dishes/refreshments` \ //returns refreshments
+`GET /dishes` 
+`GET /dishes/starters`  //returns starters. 
+
+`GET /dishes/mains`  //returns mains. 
+
+`GET /dishes/desserts`  //returns desserts. 
+
+`GET /dishes/refreshments`  //returns refreshments. 
+
 
 ##### Sample Call
 	
