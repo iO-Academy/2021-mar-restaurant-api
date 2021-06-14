@@ -144,7 +144,7 @@ If the request fails to connect to the database
 ##### Data Params
 	
 	{
-        	"_id": "60c73afb0b5f5c23d4a61688"
+        	"orderId": "60c73afb0b5f5c23d4a61688"
          	"orderItems": [{"menuItemId", 1}, {"menuItemId", 4}]
         }
 	
@@ -181,42 +181,40 @@ If the request fails to connect to the database
 	}
 
 
-#### Removing an item (in any quantity) from an order
+##### Edit quantities of dishes in orders
 
-`DELETE /orders`
-
-This endpoint allows you to remove an item entirely from an order.
+`PUT /orders/editQuantity`
 
 ##### Data Params
 
-
 ##### Sample Call
 
-
-
 ##### Success Response
+
 	{
 		"success": true,
-		"message": "Dish successfully deleted from order",
-		"status": 200,
+		"message": "Your dish quantity was successfully edited.",
+		"status": 200
 	}
 
 ##### Error Response
 	
+If the DB fails to update the dish quantity:
+	
 	{
 		"success": false,
-		"message": "Item not found so cannot be deleted from order",
-		"status": 404
+		"message": "Dish quantity was not updated",
+		"status": 400
 	}
 	
+If the dish ID is incorrect:
+	
+	{
+		"success": false,
+		"message": "There is no dish found with that ID.",
+		"status": 404
+	}
 
-
-### Edit quantities of dishes in orders
-- URL
-  `/orders/editQuantity`  //edits quantities in order
-
-- Method
-  PUT
 
 Success Response
 Code: 200
@@ -246,47 +244,46 @@ Content:
 }
 
 
-### Creating a new order
-`POST /orders`
-This endpoint allows you to create a new order.
+#### Removing an item (in any quantity) from an order
+
+`PUT /orders/removeDish`
+
+This endpoint allows you to remove an item entirely from an order.
+
 ##### Data Params
-        {
-            "name": "Ashley Coles",
-			"deliveryAddress": "BA2 6AH",
-			"email": "deliciousFood@food.com",
-			"orderItems": ["", "", ""]
+
+	 {
+           "_id": "60c73afb0b5f5c23d4a61688"
+           "orderItems": [{"menuItemId", 1}]
         }
+
 ##### Sample Call
-		{
-			TBC
-		}
+
+	{
+           fetch('http://localhost:3000/orders', {
+                  "method": DELETE,
+                  "body": JSON.stringify(/* your data goes here */),
+                  "headers": 
+           {  
+                   "content-type": "application/JSON"
+               }
+                 .then (res => res.json())
+                 .then ((data) => {
+                    //do stuff with your data
+                 })
+        })
+
 ##### Success Response
-        {
-            "success": true,
-            "message": "Order created",
-            "status": 200,
-            "data": [
-                {
-		            "_id": "60c73afb0b5f5c23d4a61688",
-					"name": "Ashley Coles",
-					"deliveryAddress": "BA2 6AH",
-					"email": "deliciousFood@food.com",
-					"isOrderSubmitted": false,
-					"timePlaced": "2000-01-01T00:00:00.000+00:00"
-					"orderItems": ["", "", ""]
-                }
-            ]
-        }
-##### Error Responses
-If the wrong datatypes are submitted
-{
-"success": false,
-"message": "Must fulfil all required fields",
-"status": 404
-}
-If the request fails to connect to the database
-{
-"success": false,
-"message": "Database request failed",
-"status": 404
-}		
+	{
+		"success": true,
+		"message": "Dish successfully deleted from order",
+		"status": 200,
+	}
+
+##### Error Response
+	
+	{
+		"success": false,
+		"message": "Item not found so cannot be deleted from order",
+		"status": 404
+	}
