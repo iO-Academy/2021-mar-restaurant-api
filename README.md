@@ -1,7 +1,6 @@
-# year-cohort-projectName
-project template repo
+# Restaurant API
 
-### Resources
+## Resources
 MongoDB. 
 
 Node.js. 
@@ -10,34 +9,112 @@ Express.js.
 
 RESTful API design.
 
-### Show Menu
-Returns json data about dishes.
+##API Calls
+
+### GET
+
+#### Getting items on the menu
+
+Returns a JSON string of dishes (option for all dishes, and dishes by type). No authentication required.
 URL
-/dishes/starters  //returns starters
-/dishes/mains  //returns mains
-/dishes/desserts  //returns desserts
-/dishes/refreshments  //returns refreshments
-Method:
-GET
-Data Params
-None
-Success Response:
-Code: 200
-Content:
-{
-"success": true,
-"message": "Requested accounts successfully retrieved.",
-"status": 200,
-"data": [{}, {}, {}]
-}
-Code: 404
-{
-"success": false,
-"message": "The resource/s requested does not exist at the desired location.",
-"status": 404
-}
+`GET /dishes` 
+`GET /dishes/starters` //returns starters
+`GET /dishes/mains` //returns mains
+`GET /dishes/desserts` //returns desserts
+`GET /dishes/refreshments` //returns refreshments
+
+##### Sample Call
+	
+	fetch('http://localhost:3000/dishes')
+		.then (res => res.json())
+		.then ((data) => {
+			//do stuff with your data
+			})
+   	 })
+
+##### Success Response
+	
+	{
+		"success": true,
+		"message": "Requested accounts successfully retrieved.",
+		"status": 200,
+		"data": [{}, {}, {}]
+	}
+	
+##### Error Response
+
+	{
+		"success": false,
+		"message": "The resources requested do not exist at the desired location.",
+		"status": 404
+	}
+	
+
+### POST: 
+
+#### Creating a new order
+
+`POST /orders`
+
+This endpoint allows you to create a new order.
 
 
+##### Data Params
+
+        {
+            "name": "Ashley Coles",
+			"deliveryAddress": "BA2 6AH",
+			"email": "deliciousFood@food.com",
+			"orderItems": ["", "", ""]
+        }
+
+
+##### Sample Call
+
+		{
+			TBC
+		}
+
+##### Success Response
+
+        {
+            "success": true,
+            "message": "Order created",
+            "status": 200,
+            "data": [
+                {
+		            "_id": "60c73afb0b5f5c23d4a61688",
+					"name": "Ashley Coles",
+					"deliveryAddress": "BA2 6AH",
+					"email": "deliciousFood@food.com",
+					"isOrderSubmitted": false,
+					"timePlaced": "2000-01-01T00:00:00.000+00:00"
+					"orderItems": []
+                }
+            ]
+        }
+        
+
+##### Error Responses
+
+If the wrong datatypes are submitted
+
+         {
+            "success": false,
+            "message": "Must fulfil all required fields",
+            "status": 404
+        }
+		
+If the request fails to connect to the database
+
+         {
+            "success": false,
+            "message": "Database request failed",
+            "status": 404
+        }		
+
+
+Adding items to an order
 
 ### adding items to an order
 - URL
