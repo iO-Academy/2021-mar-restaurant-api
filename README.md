@@ -17,13 +17,10 @@ RESTful API design.
 
 Returns a JSON string of dishes (option for all dishes, and dishes by type). No authentication required.
 URL
-`GET /dishes` 
+`GET /dishes`. 
 `GET /dishes/starters`  //returns starters. 
-
 `GET /dishes/mains`  //returns mains. 
-
 `GET /dishes/desserts`  //returns desserts. 
-
 `GET /dishes/refreshments`  //returns refreshments. 
 
 
@@ -127,14 +124,18 @@ If the request fails to connect to the database
             "status": 404
         }		
 
+### PUT
 
 ##### Adding items to an order
 
-- URL
-    `/orders/addToOrder`  //adds item to order
-  
-- Method
-    PUT
+`PUT /orders/addToOrder`
+
+##### Data Params
+	data params to go here
+	
+##### Sample Call
+	
+##### 
 
 - Success Response
 Code: 200
