@@ -2,7 +2,8 @@ let createNewOrder = async (db, order) => {
     const collection = db.collection('orders')
     const result = await collection.insertOne({
         name: order.name,
-        deliveryAddress: order.deliveryAddress,
+        firstLineOfAddress: order.firstLineOfAddress,
+        postcode: order.postcode,
         email: order.email,
     })
     return result
