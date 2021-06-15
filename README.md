@@ -115,7 +115,7 @@ This endpoint allows you to create a new order.
 
 
 ##### Data Params
-
+        ```javascript
         {
         	"name": "Ashley Coles",
 		"firstLineOfAddress": "1 Widcombe Crescent",
@@ -123,11 +123,11 @@ This endpoint allows you to create a new order.
 		"email": "deliciousFood@food.com",
 
         }
-
+        ```
 
 ##### Sample Call
 
-
+    ```javascript
 	fetch('http://localhost:3000/orders', {
         	"method": POST,
         	"body": JSON.stringify(/* your data goes here */),
@@ -140,9 +140,11 @@ This endpoint allows you to create a new order.
 				//do stuff with your data
 			})
    	 })
+    ```    
 
 ##### Success Response
-
+    
+        ```json
         {
             "success": true,
             "message": "Order created",
@@ -157,26 +159,30 @@ This endpoint allows you to create a new order.
                 }
             ]
         }
-        
+        ```
 
 ##### Error Responses
 
 If the validator fails
-
+    
+        ```json
          {
             "success": false,
             "message": "Validator failed",
             "status": 404
         }
-		
+        ```	
+
 If the request fails to connect to the database
 
+
+        ```json
          {
             "success": false,
             "message": "Database request failed",
             "status": 404
         }		
-
+        ```
 
 ### PUT
 
