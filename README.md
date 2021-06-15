@@ -101,7 +101,7 @@ Returns a JSON string of dishes (option for all dishes, and dishes by type). No 
 		"success": true,
 		"message": "Final order successfully recieved",
 		"status": 200,
-		"data": [{}, {}, {}]
+		"data": [{"menuItemId": "" , "quantity": "1"]
 	}
 
 ##### Error Response
@@ -337,7 +337,6 @@ This endpoint will send your order to the restaurant and cannot be taken back.
 
 	 {
            "_id": "60c73afb0b5f5c23d4a61688"
-           "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61689", "quantity": 1}]
         }
 
 
