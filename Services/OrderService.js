@@ -4,7 +4,6 @@ let createNewOrder = async (db, order) => {
         name: order.name,
         deliveryAddress: order.deliveryAddress,
         email: order.email,
-        orderItems: order.orderItems
     })
     return result
 }
