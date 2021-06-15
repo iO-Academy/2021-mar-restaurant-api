@@ -13,8 +13,8 @@ RESTful API design.
 ### Collection Structure
 ##### Collection structure for restaurant.starters, restaurant.mains, restaurant.desserts, restaurant.refreshments
 
-| Column 1       | Column 2     | 
-| :------------- | :----------: | 
+| Column 1       | Column 2     | Column 3 |
+| :------------- | :----------: | :--------:|
 | _id |  Unique menu item id, auto-generated  | String |
 | name   | Name of dish | String |
 | description   | Description of the dish | String |
@@ -22,8 +22,8 @@ RESTful API design.
 
 ##### Collection structure for orders
 
-| Column 1       | Column 2     | 
-| :------------- | :----------: | 
+| Column 1       | Column 2     | Column 3 |
+| :------------- | :----------: | :--------:|
 | _id |  Unique order id, auto-generated  | String |
 | name   | Name of customer | String |
 | deliveryAddress   | Address of customer where order needs to be delivered | String |
@@ -121,9 +121,10 @@ This endpoint allows you to create a new order.
 ##### Data Params
 
         {
-        	"name": "Ashley Coles",
-		"deliveryAddress": "BA2 6AH",
-		"email": "deliciousFood@food.com",
+            "name": "Ashley Coles",
+            "firstLineOfAddress": "Melksham",
+            "postcode": "BA2 6AH",
+		    "email": "deliciousFood@food.com",
         }
 
 
@@ -153,11 +154,9 @@ This endpoint allows you to create a new order.
                 {
 		 	"_id": "60c73afb0b5f5c23d4a61688",
 			"name": "Ashley Coles",
-			"deliveryAddress": "BA2 6AH",
+            "firstLineOfAddress": "Melksham",
+			"postcode": "BA2 6AH",
 			"email": "deliciousFood@food.com",
-			"isOrderSubmitted": false,
-			"timePlaced": "2000-01-01T00:00:00.000+00:00"
-			"orderItems": [{"menuItemId": "" , "quantity": "1"]
                 }
             ]
         }
@@ -165,11 +164,11 @@ This endpoint allows you to create a new order.
 
 ##### Error Responses
 
-If the wrong datatypes are submitted
+If the validator fails
 
          {
             "success": false,
-            "message": "Must fulfil all required fields",
+            "message": "Validator failed",
             "status": 404
         }
 		

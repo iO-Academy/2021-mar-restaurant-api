@@ -25,7 +25,7 @@ let createNewOrder = (req, res) => {
                         "success": true,
                         "message": "Order created",
                         "status": 200,
-                        "data": newOrder
+                        "data": newOrder.ops
                     })
                 }
             } catch (e) {
