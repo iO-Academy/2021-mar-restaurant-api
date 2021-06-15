@@ -284,14 +284,16 @@ If the dish ID is incorrect:
 This endpoint allows you to remove an item entirely from an order.
 
 ##### Data Params
-
+    ```JavaScript
 	 {
-           "_id": "60c73afb0b5f5c23d4a61688"
-           "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61689"}]
-        }
+        "orderId": "60c73afb0b5f5c23d4a61688"
+        "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61689"}]
+    }
+    ```
 
 ##### Sample Call
 
+    ```JavaScript
 	fetch('http://localhost:3000/orders', {
         	"method": PUT,
                 "body": JSON.stringify(/* your data goes here */),
@@ -304,21 +306,27 @@ This endpoint allows you to remove an item entirely from an order.
                     		//do stuff with your data
                 	 })
        		 })
+        ```
 
 ##### Success Response
+
+    ```JSON
 	{
 		"success": true,
 		"message": "Dish successfully deleted from order",
 		"status": 200,
 	}
+    ```
 
 ##### Error Response
 	
+    ```JSON
 	{
 		"success": false,
 		"message": "Item not found so cannot be deleted from order",
 		"status": 404
 	}
+    ```
 
 ### Submit final order
 

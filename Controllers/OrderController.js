@@ -35,7 +35,7 @@ let createNewOrder = (req, res) => {
 let removeOrderItem = (req, res) => {
     DbService.connectToDb(async (db) => {
         const item = {
-            _id: ObjectId(req.body.id),
+            orderId: ObjectId(req.body.orderId),
             menuItemId: req.body.menuItemId
         }
         const removeOrder = await OrderService.removeOrderItem(db, item)
