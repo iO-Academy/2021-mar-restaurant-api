@@ -5,7 +5,7 @@ const routes = (app) => {
 
     app.get('/dishes', DishesController.getAllDishes)
     app.get('/dishes/:course', DishesController.getAllDishesOfType)
-    app.post('/orders', /* story 3 controller.function */ )
+    app.post('/orders', OrdersController.createNewOrder)
     app.put('/orders/addToOrder', /* story 4 controller.function */ )
     app.delete('/orders', /* story 5 controller.function */ )
     app.put('/orders/editQuantity', /* story 6 controller.function */ )

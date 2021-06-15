@@ -1,5 +1,6 @@
 const DbService = require('../Services/DbService')
 const OrderService = require('../Services/OrderService')
+const JSONResponseService = require('../Services/JSONResponseService')
 
 const orderValidate = require('../Validators/newOrderValidator.json')
 const Ajv = require('ajv')
@@ -23,25 +24,20 @@ let createNewOrder = (req, res) => {
             try {
                 const newOrder = await OrderService.createNewOrder(db, order)
                 if (newOrder.insertedCount === 1) {
-                    return res.json({
-                        "success": true,
-                        "message": "Order created",
-                        "status": 200,
-                        "data": newOrder.ops
-                    })
+                    let response  = JSONResponseService.generateSuccessResponse()
+                    response.message = "Order created"
+                    response.data = newOrder.ops
+                    res.json(response)
                 }
             } catch (e) {
-                return res.json({
-                    "success": false,
-                    "message": "Database request failed",
-                    "status": 404
-                })
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "Database request failed"
+                res.json(response)
             }
-        } return res.json({
-            "success": false,
-            "message": "Validator failed",
-            "status": 404
-        })
+        }
+        let response = JSONResponseService.generateFailureResponse()
+        response.message = "Validator failed"
+        res.json(response)
     })
 }
 
