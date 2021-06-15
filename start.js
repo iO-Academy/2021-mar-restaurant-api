@@ -1,4 +1,4 @@
 const app = require('./index')
-const port = 3001
+const port = 3000
 
 app.listen(port)

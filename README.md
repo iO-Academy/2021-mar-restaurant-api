@@ -7,6 +7,7 @@
 | name   | Name of dish | String |
 | description   | Description of the dish | String |
 | price   | Amount of money the dish costs | Decimal128 |
+| dishType | The course type of the dish (starters, mains, desserts, refreshments) | String |
 
 ##### Collection structure for orders
 
