@@ -1,30 +1,16 @@
 const ObjectId = require('mongodb').ObjectId
 
-let getAllStarters = async (db, req) => {
-    const collection = db.collection('starters')
+let getAllDishes = async (db, req) => {
+    const collection = db.collection('dishes')
     const data = await collection.find({}).toArray()
     return data
 }
 
-let getAllMains = async (db, req) => {
-    const collection = db.collection('mains')
-    const data = await collection.find({}).toArray()
+let getAllDishesOfType = async (db, req) => {
+    const collection = db.collection('dishes')
+    const data = await collection.find({dishType: req.params.course}).toArray()
     return data
 }
 
-let getAllDesserts = async (db, req) => {
-    const collection = db.collection('desserts')
-    const data = await collection.find({}).toArray()
-    return data
-}
-
-let getAllRefreshments = async (db, req) => {
-    const collection = db.collection('refreshments')
-    const data = await collection.find({}).toArray()
-    return data
-}
-
-module.exports.getAllStarters = getAllStarters
-module.exports.getAllMains = getAllMains
-module.exports.getAllDesserts = getAllDesserts
-module.exports.getAllRefreshments = getAllRefreshments
+module.exports.getAllDishes = getAllDishes
+module.exports.getAllDishesOfType = getAllDishesOfType
