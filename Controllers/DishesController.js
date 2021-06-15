@@ -27,7 +27,7 @@ let getAllDishesOfType = (req, res) => {
             req.params.course === 'refreshments'
         ) {
             try {
-                let dishes = await DishesService.getAllDishesOfType(db, req)
+                let dishes = await DishesService.getAllDishesOfType(db, req.params.course)
                 let response = JSONResponseService.generateSuccessResponse()
                 response.message = "Requested " + req.params.course + " retrieved successfully."
                 response.data = dishes
@@ -39,7 +39,7 @@ let getAllDishesOfType = (req, res) => {
             }
         } else {
             let response = JSONResponseService.generateFailureResponse()
-            response.message = "The resources requested do not exist at the desired location."
+            response.message = "You must provide a valid category."
             res.json(response)
         }
     })

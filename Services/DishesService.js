@@ -6,9 +6,9 @@ let getAllDishes = async (db, req) => {
     return data
 }
 
-let getAllDishesOfType = async (db, req) => {
+let getAllDishesOfType = async (db, course) => {
     const collection = db.collection('dishes')
-    const data = await collection.find({dishType: req.params.course}).toArray()
+    const data = await collection.find({dishType: course}).toArray()
     return data
 }
 
