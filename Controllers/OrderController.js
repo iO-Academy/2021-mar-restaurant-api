@@ -1,8 +1,10 @@
 const DbService = require('../Services/DbService')
 const OrderService = require('../Services/OrderService')
-const validate = require('../Validators/newOrderValidator.json')
+
+const orderValidate = require('../Validators/newOrderValidator.json')
 const Ajv = require('ajv')
 const addFormats = require('ajv-formats')
+
 const ajv = new Ajv()
 addFormats(ajv)
 
@@ -15,7 +17,7 @@ let createNewOrder = (req, res) => {
             email: req.body.email,
         }
 
-        const newOrderValidate = ajv.compile(validate)
+        const newOrderValidate = ajv.compile(orderValidate)
         const valid = newOrderValidate(order)
         if (valid) {
             try {
