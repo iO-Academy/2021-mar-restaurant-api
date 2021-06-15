@@ -1,8 +1,17 @@
 # Restaurant API
 
+## Resources
+MongoDB.
+
+Node.js.
+
+Express.js.
+
+RESTful API design.
+
 
 ### Collection Structure
-##### Collection structure for restaurant.starters/restaurant.mains/restaurant.desserts/restaurant.refreshments
+##### Collection structure for restaurant.starters, restaurant.mains, restaurant.desserts, restaurant.refreshments
 
 | Column 1       | Column 2     | 
 | :------------- | :----------: | 
@@ -17,20 +26,11 @@
 | :------------- | :----------: | 
 | _id |  Unique order id, auto-generated  | String |
 | name   | Name of customer | String |
-| delivery address   | Address of customer where order needs to be delivered | String |
+| deliveryAddress   | Address of customer where order needs to be delivered | String |
 | email   | Customers email | String |
 | isOrderSubmitted | Has the customer submitted final order | Bool |
 | timePlaced   | Time order was submitted by customer | Date |
 | orderItems   | Holds object of each menu item id and quantity that customer has ordered | Arrray |
-
-## Resources
-MongoDB. 
-
-Node.js. 
-
-Express.js. 
-
-RESTful API design.
 
 ## API Calls
 
@@ -196,7 +196,7 @@ If the request fails to connect to the database
 	
 	{
         	"orderId": "60c73afb0b5f5c23d4a61688"
-         	"orderItems": [{"menuItemId", 1}, {"menuItemId", 4}]
+         	"orderItems": [{"menuItemId": "60c73afb0b5234f3d4a61688", "quantity": 4}]
         }
 	
 ##### Sample Call
@@ -231,7 +231,7 @@ If the request fails to connect to the database
 	}
 
 
-##### Edit quantities of dishes in orders
+### Edit quantities of dishes in orders
 
 `PUT /orders/editQuantity`
 
@@ -327,7 +327,7 @@ This endpoint allows you to remove an item entirely from an order.
 		"status": 404
 	}
 
-##### Submit final order
+### Submit final order
 
 `PUT /orders/submitOrder`
 
@@ -340,10 +340,6 @@ This endpoint will send your order to the restaurant and cannot be taken back.
            "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61689", "quantity": 1}]
         }
 
-    {
-      "_id": "60c73afb0b5f5c23d4a61688"
-      "price": 12.99
-    }
 
 ##### Sample Call
 
@@ -375,10 +371,12 @@ This endpoint will send your order to the restaurant and cannot be taken back.
 						"isOrderSubmitted": true,
 						"timePlaced": "2000-01-01T00:00:00.000+00:00"
 						"orderItems": [{},{}]
-					}
+                    }
 				],
 		"deliveryTime": "2000-01-01T00:00:00.000+00:00"
 	}
+
+*this success response may change 
 
 ##### Error Response
 
