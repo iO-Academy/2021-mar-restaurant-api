@@ -1,0 +1,41 @@
+[{
+  "_id": {
+    "$oid": "60c739e10b5f5c23d4a61684"
+  },
+  "name": "burger",
+  "description": "beef and cheese ",
+  "price": {
+    "$numberDecimal": "12.99"
+  },
+  "dishType": "starters"
+},{
+  "_id": {
+    "$oid": "60c73a420b5f5c23d4a61685"
+  },
+  "name": "burger",
+  "description": "beef and cheese",
+  "price": {
+    "$numberDecimal": "12.99"
+  },
+  "dishType": "mains"
+},{
+  "_id": {
+    "$oid": "60c73a660b5f5c23d4a61686"
+  },
+  "name": "tarte tatin",
+  "description": "apple with vanilla icecream",
+  "price": {
+    "$numberDecimal": "7.99"
+  },
+  "dishType": "desserts"
+},{
+  "_id": {
+    "$oid": "60c73a880b5f5c23d4a61687"
+  },
+  "name": "lemonade",
+  "description": "homemade",
+  "price": {
+    "$numberDecimal": "2.99"
+  },
+  "dishType": "refreshments"
+}]
