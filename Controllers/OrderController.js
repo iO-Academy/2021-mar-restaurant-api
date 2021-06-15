@@ -5,10 +5,6 @@ const Ajv = require('ajv')
 const addFormats = require('ajv-formats')
 const ajv = new Ajv()
 addFormats(ajv)
-// ajv.addFormat("byte", {
-//     type: "number",
-//     validate: (x) => x >= 0 && x <= 255 && x % 1 == 0,
-// })
 
 let createNewOrder = (req, res) => {
     DbService.connectToDb(async (db) => {
@@ -40,7 +36,9 @@ let createNewOrder = (req, res) => {
                 })
             }
         } return res.json({
-            "you suck": "loads"
+            "success": false,
+            "message": "Validator failed",
+            "status": 404
         })
     })
 }

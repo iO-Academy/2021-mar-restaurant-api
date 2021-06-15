@@ -3,7 +3,8 @@
   "required": ["name", "firstLineOfAddress", "postcode", "email"],
   "allOf": [{
     "properties": {
-      "name": {"type": "string"},
+      "name": {"type": "string",
+        "pattern": "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"},
       "firstLineOfAddress": {"type": "string"},
       "postcode": {"type": "string"},
       "email": {"type": "string", "format": "email"
