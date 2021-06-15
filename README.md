@@ -26,7 +26,8 @@ RESTful API design.
 | :------------- | :----------: | 
 | _id |  Unique order id, auto-generated  | String |
 | name   | Name of customer | String |
-| deliveryAddress   | Address of customer where order needs to be delivered | String |
+| firstLineOfAddress   | First line of the customer's address for where order needs to be delivered | String |
+| postcode   | Postcode of the customer's address for where order needs to be delivered | String |
 | email   | Customers email | String |
 | isOrderSubmitted | Has the customer submitted final order | Bool |
 | timePlaced   | Time order was submitted by customer | Date |
@@ -122,7 +123,8 @@ This endpoint allows you to create a new order.
 
         {
         	"name": "Ashley Coles",
-		"deliveryAddress": "BA2 6AH",
+		"firstLineOfAddress": "1 Widcombe Crescent",
+		"postcode": "BA2 6AH",
 		"email": "deliciousFood@food.com",
         }
 
@@ -153,7 +155,8 @@ This endpoint allows you to create a new order.
                 {
 		 	"_id": "60c73afb0b5f5c23d4a61688",
 			"name": "Ashley Coles",
-			"deliveryAddress": "BA2 6AH",
+			"firstLineOfAddress": "1 Widcombe Crescent",
+			"postcode": "BA2 6AH",
 			"email": "deliciousFood@food.com",
 			"isOrderSubmitted": false,
 			"timePlaced": "2000-01-01T00:00:00.000+00:00"
