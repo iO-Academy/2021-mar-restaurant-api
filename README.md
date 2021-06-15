@@ -41,9 +41,6 @@ RESTful API design.
 Returns a JSON string of dishes (option for all dishes, and dishes by type). No authentication required.
 
 
-`GET /dishes`
-
-
 `GET /dishes/starters`  //returns starters
 
 
@@ -69,7 +66,7 @@ Returns a JSON string of dishes (option for all dishes, and dishes by type). No 
 	
 	{
 		"success": true,
-		"message": "Requested accounts successfully retrieved.",
+		"message": "Requested dishes successfully retrieved.",
 		"status": 200,
 		"data": [{}, {}, {}]
 	}
@@ -127,7 +124,6 @@ This endpoint allows you to create a new order.
         	"name": "Ashley Coles",
 		"deliveryAddress": "BA2 6AH",
 		"email": "deliciousFood@food.com",
-		"orderItems": [{"menuItemId": "" , "quantity": "1"]
         }
 
 
@@ -294,7 +290,7 @@ This endpoint allows you to remove an item entirely from an order.
 
 	 {
            "_id": "60c73afb0b5f5c23d4a61688"
-           "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61689", "quantity": 1}]
+           "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61689"}]
         }
 
 ##### Sample Call
@@ -304,8 +300,8 @@ This endpoint allows you to remove an item entirely from an order.
                 "body": JSON.stringify(/* your data goes here */),
                 "headers": 
            	{  
-                   "content-type": "application/JSON"
-               	}
+                "content-type": "application/JSON"
+            }
                  	.then (res => res.json())
                 	 .then ((data) => {
                     		//do stuff with your data
