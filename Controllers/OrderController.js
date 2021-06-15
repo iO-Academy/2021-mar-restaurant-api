@@ -2,7 +2,7 @@ const DbService = require('../Services/DbService')
 const DishesService = require('../Services/DishesService')
 const ObjectId = require('mongodb').ObjectId
 const OrderService = require('../Services/OrderService')
-
+const JSONResponseService = require('../Services/JSONResponseService')
 
 let createNewOrder = (req, res) => {
     DbService.connectToDb(async (db) => {
@@ -38,9 +38,20 @@ let removeOrderItem = (req, res) => {
             orderId: ObjectId(req.body.orderId),
             menuItemId: req.body.menuItemId
         }
-        const removeOrder = await OrderService.removeOrderItem(db, item)
+        try {
+            const removeOrder = await OrderService.removeOrderItem(db, item)
+            if (removeOrder.matchedCount === 1) {
+                console.log(removeOrder)
+                let response = JSONResponseService.generateSuccessResponse()
+                response.message = "Dish successfully deleted from order"
+                return res.json(response)
+            }
+        } catch (e) {
+            let response = JSONResponseService.generateFailureResponse()
+            response.message = "Item not found so cannot be deleted from order."
+            return res.json(response)
+        }
     })
-    res.send("yes")
 }
 
 
