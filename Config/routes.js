@@ -3,9 +3,9 @@ const DishesController = require('../Controllers/DishesController')
 
 const routes = (app) => {
     app.get('/dishes/starters', DishesController.getAllStarters)
-    app.get('/dishes/mains', /* story 2 controller.function */)
-    app.get('/dishes/desserts', /* story 2 controller.function */ )
-    app.get('/dishes/refreshments', /* story 2 controller.function */ )
+    app.get('/dishes/mains', DishesController.getAllMains)
+    app.get('/dishes/desserts', DishesController.getAllDesserts)
+    app.get('/dishes/refreshments', DishesController.getAllRefreshments)
     app.post('/orders', /* story 3 controller.function */ )
     app.put('/orders/addToOrder', /* story 4 controller.function */ )
     app.delete('/orders', /* story 5 controller.function */ )
