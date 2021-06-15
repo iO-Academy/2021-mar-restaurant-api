@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "required": ["name", "firstLineOfAddress", "postcode", "email"],
+  "allOf": [{
+    "properties": {
+      "name": {"type": "string"},
+      "firstLineOfAddress": {"type": "string"},
+      "postcode": {"type": "string"},
+      "email": {"type": "string", "format": "email"
+      }
+    },
+    "additionalProperties": false
+  }]
+}
+
