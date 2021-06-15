@@ -2,14 +2,14 @@
 
 
 ### Collection Structure
-##### Collection structure for Starters/Mains/Desserts/Refreshments
+##### Collection structure for restaurant.starters/restaurant.mains/restaurant.desserts/restaurant.refreshments
 
 | Column 1       | Column 2     | 
 | :------------- | :----------: | 
 | _id |  Unique menu item id, auto-generated  | String |
 | name   | Name of dish | String |
-| description   | description of the dish | String |
-| price   | Amount of money the dish costs | Integer |
+| description   | Description of the dish | String |
+| price   | Amount of money the dish costs | Decimal128 |
 
 ##### Collection structure for orders
 
@@ -17,11 +17,11 @@
 | :------------- | :----------: | 
 | _id |  Unique order id, auto-generated  | String |
 | name   | Name of customer | String |
-| delivery address   | address of customer where order needs to be delivered | String |
-| email   | customers email | String |
-| isOrderSubmit | Has the customer submitted final order | Bool |
-| timePlaced   | time order was submitted by customer | Date |
-| orderItems   | holds object of each menu item id and quantity that customer has ordered | Arrray |
+| delivery address   | Address of customer where order needs to be delivered | String |
+| email   | Customers email | String |
+| isOrderSubmitted | Has the customer submitted final order | Bool |
+| timePlaced   | Time order was submitted by customer | Date |
+| orderItems   | Holds object of each menu item id and quantity that customer has ordered | Arrray |
 
 ## Resources
 MongoDB. 
