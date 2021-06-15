@@ -1,6 +1,8 @@
 const DbService = require('../Services/DbService')
 const DishesService = require('../Services/DishesService')
 const ObjectId = require('mongodb').ObjectId
+const OrderService = require('../Services/OrderService')
+
 
 let createNewOrder = (req, res) => {
     DbService.connectToDb(async (db) => {
@@ -29,3 +31,18 @@ let createNewOrder = (req, res) => {
         }
     })
 }
+
+let removeOrderItem = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        const item = {
+            _id: ObjectId(req.body.id),
+            menuItemId: req.body.menuItemId
+        }
+        const removeOrder = await OrderService.removeOrderItem(db, item)
+    })
+    res.send("yes")
+}
+
+
+module.exports.removeOrderItem = removeOrderItem
+
