@@ -1,10 +1,10 @@
 const OrdersController = require('../Controllers/OrderController')
-const DishesController = require('../Controllers/DishesController')
+// const DishesController = require('../Controllers/DishesController')
 
 const routes = (app) => {
 
-    app.get('/dishes', DishesController.getAllDishes)
-    app.get('/dishes/:course', DishesController.getAllDishesOfType)
+    // app.get('/dishes', DishesController.getAllDishes)
+    // app.get('/dishes/:course', DishesController.getAllDishesOfType)
     app.post('/orders', OrdersController.createNewOrder)
     app.put('/orders/addToOrder', /* story 4 controller.function */ )
     app.delete('/orders', /* story 5 controller.function */ )

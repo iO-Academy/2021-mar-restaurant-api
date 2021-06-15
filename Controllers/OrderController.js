@@ -27,17 +27,17 @@ let createNewOrder = (req, res) => {
                     let response  = JSONResponseService.generateSuccessResponse()
                     response.message = "Order created"
                     response.data = newOrder.ops
-                    res.json(response)
+                    return res.json(response)
                 }
             } catch (e) {
                 let response = JSONResponseService.generateFailureResponse()
                 response.message = "Database request failed"
-                res.json(response)
+                return res.json(response)
             }
         }
         let response = JSONResponseService.generateFailureResponse()
         response.message = "Validator failed"
-        res.json(response)
+        return res.json(response)
     })
 }
 
