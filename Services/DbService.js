@@ -12,4 +12,4 @@ let connectToDb = (cb) => {
     })
 }
 
-module.exports = connectToDb
+module.exports.connectToDb = connectToDb

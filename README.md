@@ -1,37 +1,26 @@
-# Restaurant API
-
-## Resources
-MongoDB.
-
-Node.js.
-
-Express.js.
-
-RESTful API design.
-
-
 ### Collection Structure
-##### Collection structure for restaurant.starters, restaurant.mains, restaurant.desserts, restaurant.refreshments
+##### Collection structure for restaurant.dishes
 
-| Column 1       | Column 2     | 
-| :------------- | :----------: | 
+| Property      | Value     | Type     |
+| :------------- | :----------: | :----------: | 
 | _id |  Unique menu item id, auto-generated  | String |
 | name   | Name of dish | String |
 | description   | Description of the dish | String |
 | price   | Amount of money the dish costs | Decimal128 |
+| dishType | The course type of the dish (starters, mains, desserts, refreshments) | String |
 
 ##### Collection structure for orders
 
-| Column 1       | Column 2     | 
-| :------------- | :----------: | 
+| Property      | Value     | Type     |
+| :------------- | :----------: | :----------: | 
 | _id |  Unique order id, auto-generated  | String |
 | name   | Name of customer | String |
-| firstLineOfAddress   | First line of the customer's address for where order needs to be delivered | String |
-| postcode   | Postcode of the customer's address for where order needs to be delivered | String |
+| deliveryAddress   | Address of customer where order needs to be delivered | String |
 | email   | Customers email | String |
 | isOrderSubmitted | Has the customer submitted final order | Bool |
 | timePlaced   | Time order was submitted by customer | Date |
-| orderItems   | Holds object of each menu item id and quantity that customer has ordered | Arrray |
+| orderItems   | Holds object of each menu item id and quantity that customer has ordered | Array |
+
 
 ## API Calls
 
@@ -41,45 +30,50 @@ RESTful API design.
 
 Returns a JSON string of dishes (option for all dishes, and dishes by type). No authentication required.
 
+// return all dishes of all types (dishType)
+`GET /dishes`
 
-`GET /dishes/starters`  //returns starters
+// return all starters
+`GET /dishes/starters`
 
+// return all mains
+`GET /dishes/mains`
 
-`GET /dishes/mains`  //returns mains
+// return all desserts
+`GET /dishes/desserts`
 
-
-`GET /dishes/desserts`  //returns desserts
-
-
-`GET /dishes/refreshments`  //returns refreshments
-
+// return all refreshments
+`GET /dishes/refreshments`
 
 ##### Sample Call
-	
-	fetch('http://localhost:3000/dishes')
-		.then (res => res.json())
-		.then ((data) => {
-			//do stuff with your data
-			})
-   	 })
+```javascript
+fetch('http://localhost:3000/dishes')
+    .then (res => res.json())
+    .then ((data) => {
+    //do stuff with your data
+    })
+})
+```
 
 ##### Success Response
-	
-	{
-		"success": true,
-		"message": "Requested dishes successfully retrieved.",
-		"status": 200,
-		"data": [{}, {}, {}]
-	}
-	
-##### Error Response
+```json
+{
+    "success": true,
+    "message": "Requested dishes retrieved successfully.",
+    "status": 200,
+    "data": [{dish}, {dish}, {dish}]
+}
+```
 
-	{
-		"success": false,
-		"message": "The resources requested do not exist at the desired location.",
-		"status": 404
-	}
-	
+##### Error Response
+```json
+{
+    "success": false,
+    "message": "The resources requested do not exist at the desired location.",
+    "status": 404
+}
+```
+
 #### Retrieving final order
 
 `GET /orders/:id`
@@ -384,5 +378,3 @@ This endpoint will send your order to the restaurant and cannot be taken back.
 		"message": "The resource/s requested does not exist at the desired location.",
 		"status": 404
 	}
-
-
