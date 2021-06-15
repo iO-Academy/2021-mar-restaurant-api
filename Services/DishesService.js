@@ -24,4 +24,7 @@ let getAllRefreshments = async (db, req) => {
     return data
 }
 
-module.exports.getAllStarters = getAllStarters()
+module.exports.getAllStarters = getAllStarters
+module.exports.getAllMains = getAllMains
+module.exports.getAllDesserts = getAllDesserts
+module.exports.getAllRefreshments = getAllRefreshments
