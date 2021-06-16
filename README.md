@@ -187,45 +187,51 @@ If the request fails to connect to the database
 
 #### Adding items to an order
 
-`PUT /orders/addToOrder`
+// add an item, with any quantity, to an existing order `PUT /orders/addToOrder`
 
 ##### Data Params
 	
-	{
-        	"orderId": "60c73afb0b5f5c23d4a61688"
-         	"orderItems": [{"menuItemId": "60c73afb0b5234f3d4a61688", "quantity": 4}]
-        }
+```json
+{
+    "orderId": "60c73afb0b5f5c23d4a61688"
+    "orderItems": [{"menuItemId": "60c73afb0b5234f3d4a61688", "quantity": 4}]
+}
+```
 	
 ##### Sample Call
 	
-     	fetch('http://localhost:3000/orders', {
-              	"method": PUT,
-             	"body": JSON.stringify(/* your data goes here */),
-              	"headers": 
-         		{	
-                		"content-type": "application/JSON"
-              		}
-         				.then (res => res.json())
-         				.then ((data) => {
-         					//do stuff with your data
-         				})
-       	 })
-	
+```javascript
+fetch('http://localhost:3000/orders', {
+    "method": PUT,
+    "body": JSON.stringify(/* your data goes here */),
+    "headers":
+        {
+            "content-type": "application/JSON"
+        }
+            .then(res => res.json())
+            .then((data) => {
+                //do stuff with your data
+            })
+})
+```
 ##### Success Response
 
-	{
-		"success": true,
-		"message": "Dish successfully added to order",
-		"status": 200,
-	}
-
+```json
+{
+    "success": true,
+    "message": "Dish successfully added to order",
+    "status": 200,
+}
+```
 ##### Error Response
 
-	{
-		"success": false,
-		"message": "Item not found so cannot add to order",
-		"status": 400
-	}
+```json
+{
+    "success": false,
+    "message": "Dish not found so cannot add to order",
+    "status": 404
+}
+```
 
 
 ### Edit quantities of dishes in orders

@@ -1,17 +1,16 @@
 const DbService = require('../Services/DbService')
-const ObjectId = require('mongodb').ObjectId
 const OrderService = require('../Services/OrderService')
 const JSONResponseService = require('../Services/JSONResponseService')
-
+const ObjectId = require('mongodb').ObjectId
 const orderValidate = require('../Validators/newOrderValidator.json')
-const idRemoveValidator = require('../Validators/removeOrderItem.json')
+const addToOrderValidate = require('../Validators/addItemsToOrderValidator.json')
 const Ajv = require('ajv')
 const addFormats = require('ajv-formats')
 
 const ajv = new Ajv()
 addFormats(ajv)
 
-let createNewOrder = (req, res) => {
+const createNewOrder = (req, res) => {
     DbService.connectToDb(async (db) => {
         const order = {
             name: req.body.name,
@@ -19,6 +18,7 @@ let createNewOrder = (req, res) => {
             postcode: req.body.postcode,
             email: req.body.email,
         }
+
         const newOrderValidate = ajv.compile(orderValidate)
         const valid = newOrderValidate(order)
         if (valid) {
@@ -42,36 +42,34 @@ let createNewOrder = (req, res) => {
     })
 }
 
-let removeOrderItem = (req, res) => {
+const addToOrder = (req, res) => {
     DbService.connectToDb(async (db) => {
-        const item = {
-            orderId: ObjectId(req.body.orderId),
-            menuItemId: req.body.menuItemId,
+        const itemsToOrder = {
+            orderId: req.body.orderId,
+            orderItems: req.body.orderItems
         }
-        const idValidator = ajv.compile(idRemoveValidator)
-        const valid = idValidator(item)
+
+        const compile = ajv.compile(addToOrderValidate)
+        const valid = compile(itemsToOrder)
+
         if (valid) {
             try {
-                const removedOrder = await OrderService.removeOrderItem(db, item)
-                if (removedOrder.modifiedCount === 1) {
-                    let response  = JSONResponseService.generateSuccessResponse()
-                    response.message = "Item removed"
-                    response.data = removedOrder.ops
-                    return res.json(response)
-                }
+                await OrderService.addItemsToOrder(db, itemsToOrder)
+                let response = JSONResponseService.generateSuccessResponse()
+                response.message = "Dish successfully added to order"
+                return res.json(response)
             } catch (e) {
                 let response = JSONResponseService.generateFailureResponse()
-                response.message = "Database request failed"
+                response.message = "Dish not found so cannot add to order"
                 return res.json(response)
             }
         }
         let response = JSONResponseService.generateFailureResponse()
-        response.message = "Validator failed"
+        response.message = "Invalid data types provided"
         return res.json(response)
     })
-    }
+}
 
-
-
-module.exports.removeOrderItem = removeOrderItem
 module.exports.createNewOrder = createNewOrder
+module.exports.submitFinalOrder = submitFinalOrder
+module.exports.addToOrder = addToOrder
