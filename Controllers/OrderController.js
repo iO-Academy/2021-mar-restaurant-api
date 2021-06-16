@@ -64,6 +64,9 @@ const addToOrder = (req, res) => {
                 return res.json(response)
             }
         }
+        let response = JSONResponseService.generateFailureResponse()
+        response.message = "Invalid data types provided"
+        return res.json(response)
     })
 }
 
