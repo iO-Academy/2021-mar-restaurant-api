@@ -1,7 +1,7 @@
 const DbService = require('../Services/DbService')
 const OrderService = require('../Services/OrderService')
 const JSONResponseService = require('../Services/JSONResponseService')
-
+const ObjectId = require('mongodb').ObjectId
 const orderValidate = require('../Validators/newOrderValidator.json')
 const Ajv = require('ajv')
 const addFormats = require('ajv-formats')
@@ -41,4 +41,15 @@ let createNewOrder = (req, res) => {
     })
 }
 
+let submitFinalOrder = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        const order = {
+            orderId: ObjectId(req.body.orderId)
+        }
+        const submittedOrder = await OrderService.submitFinalOrder(db, order)
+        res.send("hello")
+    })
+}
+
 module.exports.createNewOrder = createNewOrder
+module.exports.submitFinalOrder = submitFinalOrder
