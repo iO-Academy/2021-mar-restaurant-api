@@ -70,5 +70,27 @@ const addToOrder = (req, res) => {
     })
 }
 
+const editOrderItemQuantity = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        const request = {
+            orderId: req.body.orderId,
+            orderItems: req.body.menuItemId,
+            quantity: req.body.quantity
+        }
+
+        const compile = ajv.compile(addToOrderValidate)
+        const valid = compile(request)
+
+        if (valid) {
+            try {
+
+            } catch (e) {
+
+            }
+        }
+    })
+}
+
 module.exports.createNewOrder = createNewOrder
 module.exports.addToOrder = addToOrder
+module.exports.editOrderItemQuantity = editOrderItemQuantity

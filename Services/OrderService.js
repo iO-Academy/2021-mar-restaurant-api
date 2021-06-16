@@ -13,7 +13,7 @@ const getOrder = async (db, orderId) => {
     return order
 }
 
-const updateOrder = async (db, orderId, newOrderItems) => {
+const updateOrderItems = async (db, orderId, newOrderItems) => {
     const collection = db.collection('orders')
 
     const query = { _id: ObjectId(orderId) }
@@ -36,9 +36,20 @@ const addItemsToOrder = async (db, itemsToOrder) => {
         }
     }
 
-    const updateSuccess = updateOrder(db, itemsToOrder.orderId, order.orderItems)
+    const updateSuccess = updateOrderItems(db, itemsToOrder.orderId, order.orderItems)
+    return updateSuccess.modifiedCount
+}
+
+const editOrderItemQuantity = async (db, request) => {
+    const order = await getOrder(db, request.orderId)
+    const index = order.orderItems.findIndex(orderItem => orderItem.menuItemId === request.menuItemId)
+    if (index !== (-1)) {
+        order.orderItems[index].quantity = request.quantity
+    }
+    const updateSuccess = updateOrderItems(db, request.orderId, order.orderItems)
     return updateSuccess.modifiedCount
 }
 
 module.exports.createNewOrder = createNewOrder
 module.exports.addItemsToOrder = addItemsToOrder
+module.exports.editOrderItemQuantity = editOrderItemQuantity

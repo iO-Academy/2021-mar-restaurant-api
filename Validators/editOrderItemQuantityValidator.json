@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "required": ["orderId", "menuItemId", "quantity"],
+  "allOf": [{
+    "properties": {
+      "orderId": {"type": "string"},
+      "menuItemId": {"type": "string"},
+      "quantity": {"type":  "int"}
+    },
+    "additionalProperties": false
+  }]
+}
+
