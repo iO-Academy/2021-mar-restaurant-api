@@ -4,6 +4,7 @@ const DishesController = require('../Controllers/DishesController')
 const routes = (app) => {
 
     app.get('/dishes', DishesController.getAllDishes)
+    app.get ('/dishes/:id', DishesController.getDishPriceById)
     app.get('/dishes/:course', DishesController.getAllDishesOfType)
     app.post('/orders', OrdersController.createNewOrder)
     app.put('/orders/addToOrder', /* story 4 controller.function */ )

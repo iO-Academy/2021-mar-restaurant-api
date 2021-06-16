@@ -1,6 +1,8 @@
 const DbService = require('../Services/DbService')
 const DishesService = require('../Services/DishesService')
 const JSONResponseService = require('../Services/JSONResponseService')
+const ObjectId = require('mongodb').ObjectId
+
 
 let getAllDishes = (req, res) => {
     DbService.connectToDb(async (db) => {
@@ -45,5 +47,15 @@ let getAllDishesOfType = (req, res) => {
     })
 }
 
+let getDishPriceById = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        const dishId = ObjectId(req.params.id)
+        const dish = await DishesService.getDishById(db, dishId)
+        const dishPrice = dish.price
+        res.json(dishPrice)
+    })
+}
+
 module.exports.getAllDishes = getAllDishes
 module.exports.getAllDishesOfType = getAllDishesOfType
+module.exports.getDishPriceById = getDishPriceById
