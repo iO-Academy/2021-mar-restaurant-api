@@ -7,18 +7,18 @@ let createNewOrder = async (db, order) => {
     return result
 }
 
-let submitFinalOrder = async  (db, order) => {
+let submitFinalOrder = async  (db, order, totalPrice) => {
     const collection = db.collection('orders')
     const timePlaced = new Date()
     const result = await collection.updateOne(
         { _id: order.orderId},
-        {$set: {isOrderSubmitted: true, timePlaced: timePlaced, totalPrice: 0}})
+        {$set: {isOrderSubmitted: true, timePlaced: timePlaced, totalPrice: totalPrice}})
     return result
 }
 
-let getFinalOrderDetails = async (db, order) => {
+let getFinalOrderDetails = async (db, orderId) => {
     const collection = db.collection('orders')
-    const result = await collection.findOne({_id: order.orderId})
+    const result = await collection.findOne({_id: orderId})
     return result
 }
 
@@ -57,8 +57,8 @@ const addItemsToOrder = async (db, itemsToOrder) => {
 
 let getDishPriceById = async (db, dishId) => {
     const collection = db.collection('dishes')
-    const data = await collection.findOne({_id: dishId})
-    return data
+    const dish = await collection.findOne({_id: dishId})
+    return dish.price
 }
 
 module.exports.createNewOrder = createNewOrder

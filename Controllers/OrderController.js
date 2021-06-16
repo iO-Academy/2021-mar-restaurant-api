@@ -74,8 +74,7 @@ let getDishPriceById = (req, res) => {
     DbService.connectToDb(async (db) => {
         const dishId = ObjectId(req.params.id)
         const dish = await OrderService.getDishPriceById(db, dishId)
-        const dishPrice = dish.price
-        res.json(dishPrice)
+        return dish.price
     })
 }
 
@@ -84,25 +83,31 @@ let submitFinalOrder = (req, res) => {
         const order = {
             orderId: ObjectId(req.body.orderId)
         }
-        const finalisedOrder = await OrderService.submitFinalOrder(db, order)
-        if (finalisedOrder.modifiedCount === 1) {
-            const entireOrder = await OrderService.getFinalOrderDetails(db, order)
-            console.log(entireOrder)
-            // for( const orderItem of entireOrder) {
-            //     console.log(orderItem)
-                // let prices = await DishesController.getDishPriceById(db, orderItem.menuItemId)
-                // console.log(prices)
-            // }
-            let response = JSONResponseService.generateSuccessResponse()
-            response.message = "The order has been placed with the dishes as detailed below"
-            response.data = entireOrder
-            return res.json(response)
+
+        const entireOrder = await OrderService.getFinalOrderDetails(db, order.orderId)
+        let totalPrice = 0
+        for(const orderItem of entireOrder.orderItems) {
+            const dishId = ObjectId(orderItem.menuItemId)
+            const dishPrice = await OrderService.getDishPriceById(db, dishId)
+            const totalItemPrice = ((dishPrice * 100 * orderItem.quantity) / 100)
+            totalPrice += totalItemPrice
         }
-        let response = JSONResponseService.generateFailureResponse()
-        response.message = "Order could not be found"
-        return res.json(response)
+        const finalisedOrder = await OrderService.submitFinalOrder(db, order, totalPrice)
+
+
+
+
+        // let response = JSONResponseService.generateSuccessResponse()
+            // response.message = "The order has been placed with the dishes as detailed below"
+            // response.data = entireOrder
+            // return res.json(response)
+
+        // let response = JSONResponseService.generateFailureResponse()
+        // response.message = "Order could not be found"
+        // return res.json(response)
     })
 }
+
 
 
 
