@@ -382,7 +382,7 @@ This endpoint will send your order to the restaurant and cannot be taken back.
 ```json
 	{
 		"success": false,
-		"message": "The resource/s requested does not exist at the desired location.",
+		"message": "The resources requested do not exist at the desired location.",
 		"status": 404
 	}
 ```
