@@ -1,7 +1,7 @@
 const DbService = require('../Services/DbService')
 const OrderService = require('../Services/OrderService')
-const JSONResponseService = require('../Services/JSONResponseService')
 const ObjectId = require('mongodb').ObjectId
+const JSONResponseService = require('../Services/JSONResponseService')
 const orderValidate = require('../Validators/newOrderValidator.json')
 const addToOrderValidate = require('../Validators/addItemsToOrderValidator.json')
 const Ajv = require('ajv')
@@ -70,6 +70,25 @@ const addToOrder = (req, res) => {
     })
 }
 
+let removeOrderItem = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        const item = {
+            orderId: ObjectId(req.body.orderId),
+            menuItemId: req.body.menuItemId,
+        }
+        const removeOrder = await OrderService.removeOrderItem(db, item)
+        if(removeOrder.modifiedCount === 1) {
+            let response  = JSONResponseService.generateSuccessResponse()
+            response.message = "All dishes of this quantity successfully deleted from order"
+            return res.json(response)
+        }
+        let response = JSONResponseService.generateFailureResponse()
+        response.message = "Item was not deleted from order"
+        return res.json(response)
+    } )
+}
+
+
 module.exports.createNewOrder = createNewOrder
-module.exports.submitFinalOrder = submitFinalOrder
 module.exports.addToOrder = addToOrder
+module.exports.removeOrderItem = removeOrderItem
