@@ -61,8 +61,30 @@ let removeOrderItem = (req, res) => {
             response.message = "Item not found so cannot be deleted from order."
             return res.json(response)
         }
+
+        const newOrderValidate = ajv.compile(orderValidate)
+        const valid = newOrderValidate(order)
+        if (valid) {
+            try {
+                const newOrder = await OrderService.createNewOrder(db, order)
+                if (newOrder.insertedCount === 1) {
+                    let response  = JSONResponseService.generateSuccessResponse()
+                    response.message = "Order created"
+                    response.data = newOrder.ops
+                    return res.json(response)
+                }
+            } catch (e) {
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "Database request failed"
+                return res.json(response)
+            }
+        }
+        let response = JSONResponseService.generateFailureResponse()
+        response.message = "Validator failed"
+        return res.json(response)
     })
 }
+
 
 
 module.exports.removeOrderItem = removeOrderItem
