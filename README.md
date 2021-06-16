@@ -364,27 +364,30 @@ This endpoint will send your order to the restaurant and cannot be taken back.
 ```json
 	{
         "success": true,
-        "message": "The order has been placed with the dishes as detailed below",
+        "message": "The order has been placed",
         "status": 200,
-        "data": {
-          "_id": "60c8c45737e05acb27e9d1e8"
-        },
-        "name": "Ashley Coles",
-        "firstLineOfAddress": "1 Widcombe Crescent",
-        "postcode": "BS3 4NF",
-        "email": "deliciousFood@food.com",
-        "isOrderSubmitted": true,
-        "timePlaced": "2021-06-16T11:00:02.340Z"
   }
 
 ```
 
-##### Error Response
+##### Error Responses
+
+If the order has already been submitted
 
 ```json
 	{
 		"success": false,
-		"message": "Order could not be found",
+		"message": "Order has already been submitted",
+		"status": 404
+	}
+```
+
+If there is an issue connecting to the database
+
+```json
+	{
+		"success": false,
+		"message": "Database request failed",
 		"status": 404
 	}
 ```

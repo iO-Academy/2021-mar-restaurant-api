@@ -90,11 +90,11 @@ let submitFinalOrder = (req, res) => {
             const submittedOrder = await OrderService.submitFinalOrder(db, order, totalPrice)
             if (submittedOrder.modifiedCount === 1) {
                 let response = JSONResponseService.generateSuccessResponse()
-                response.message = "Your order has been placed"
+                response.message = "The order has been placed"
                 return res.json(response)
             }
             let response = JSONResponseService.generateFailureResponse()
-            response.message = "Order could not be found"
+            response.message = "Order has already been submitted"
             return res.json(response)
         } catch (e) {
             let response = JSONResponseService.generateFailureResponse()
