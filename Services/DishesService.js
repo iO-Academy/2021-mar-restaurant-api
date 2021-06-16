@@ -12,5 +12,13 @@ let getAllDishesOfType = async (db, course) => {
     return data
 }
 
+const getOneDish = async (db, dishId) => {
+    const collection = db.collection('dishes')
+    const query = { _id: ObjectId(dishId) }
+    const update = await collection.findOne( query )
+    return update
+}
+
 module.exports.getAllDishes = getAllDishes
 module.exports.getAllDishesOfType = getAllDishesOfType
+module.exports.getOneDish = getOneDish
