@@ -47,7 +47,7 @@ const editOrderItemQuantity = async (db, request) => {
         order.orderItems[index].quantity = request.quantity
     }
     const updateSuccess = updateOrderItems(db, request.orderId, order.orderItems)
-    return updateSuccess.modifiedCount
+    return updateSuccess
 }
 
 module.exports.createNewOrder = createNewOrder

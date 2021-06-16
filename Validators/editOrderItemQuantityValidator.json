@@ -5,9 +5,8 @@
     "properties": {
       "orderId": {"type": "string"},
       "menuItemId": {"type": "string"},
-      "quantity": {"type":  "int"}
+      "quantity": {"type":  "number"}
     },
     "additionalProperties": false
   }]
 }
-
