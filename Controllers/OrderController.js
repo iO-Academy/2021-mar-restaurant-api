@@ -48,15 +48,24 @@ let removeOrderItem = (req, res) => {
             orderId: ObjectId(req.body.orderId),
             menuItemId: req.body.menuItemId,
         }
-        console.log(item)
         try {
             const removeOrder = await OrderService.removeOrderItem(db, item)
-            res.send('hello')
+            if(removeOrder.modifiedCount === 1) {
+                let response  = JSONResponseService.generateSuccessResponse()
+                response.message = "All dishes of this quantity successfully deleted from order"
+                return res.json(response)
+            }
+            let response = JSONResponseService.generateFailureResponse()
+            response.message = "Item not found so cannot be deleted from order"
+            return res.json(response)
         } catch (e) {
-            res.send('doesnt work')
+            let response = JSONResponseService.generateFailureResponse()
+            response.message = "Database request failed"
+            return res.json(response)
         }
-        res.send('not doing anything')
-
+        let response = JSONResponseService.generateFailureResponse()
+        response.message = "Database request failed"
+        return res.json(response)
     })
 }
         // try {

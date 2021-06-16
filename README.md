@@ -285,14 +285,14 @@ If the dish ID is incorrect:
 
 `PUT /orders/removeDish`
 
-This endpoint allows you to remove an item entirely from an order.
+This endpoint allows you to remove an item entirely from an order regardless of quantity.
 
 ##### Data Params
 ```json
-	 {
-        "orderId": "60c73afb0b5f5c23d4a61688",
-        "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61689"}]
-    }
+	  {
+          "orderId": "60c73afb0b5f5c23d4a61688",
+          "menuItemId": "60c73a660b5f5c23d4a61681"
+      }
    ```
 
 ##### Sample Call
@@ -317,12 +317,12 @@ This endpoint allows you to remove an item entirely from an order.
 ```JSON
 	{
 		"success": true,
-		"message": "Dish successfully deleted from order",
+		"message": "All dishes of this quantity successfully deleted from order",
 		"status": 200,
 	}
  ```
 
-##### Error Response
+##### Error Responses
 	
 ```JSON
 	{
@@ -331,6 +331,14 @@ This endpoint allows you to remove an item entirely from an order.
 		"status": 404
 	}
  ```
+
+```JSON
+    {
+        "success": false,
+        "message": "Database request failed",
+        "status": 404
+    } 
+```
 
 ### Submit final order
 
