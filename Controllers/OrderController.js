@@ -9,7 +9,7 @@ const addFormats = require('ajv-formats')
 const ajv = new Ajv()
 addFormats(ajv)
 
-let createNewOrder = (req, res) => {
+const createNewOrder = (req, res) => {
     DbService.connectToDb(async (db) => {
         const order = {
             name: req.body.name,
@@ -41,4 +41,20 @@ let createNewOrder = (req, res) => {
     })
 }
 
+const addToOrder = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        try {
+            await OrderService.addOneItemToOrder(db, req)
+            let response = JSONResponseService.generateSuccessResponse()
+            response.message = "Dish successfully added to order"
+            return res.json(response)
+        } catch (e) {
+            let response = JSONResponseService.generateFailureResponse()
+            response.message = "Dish not found so cannot add to order"
+            return res.json(response)
+        }
+    })
+}
+
 module.exports.createNewOrder = createNewOrder
+module.exports.addToOrder = addToOrder
