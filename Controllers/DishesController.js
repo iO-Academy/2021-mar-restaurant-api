@@ -7,7 +7,7 @@ const getAllDishes = (req, res) => {
         try {
             const dishes = await DishesService.getAllDishes(db, req)
             let response = JSONResponseService.generateSuccessResponse()
-            response.message = "Requested starters retrieved successfully."
+            response.message = "Requested dishes retrieved successfully."
             response.data = dishes
             res.json(response)
         } catch (e) {

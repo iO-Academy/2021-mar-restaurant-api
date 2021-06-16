@@ -43,8 +43,12 @@ const createNewOrder = (req, res) => {
 
 const addToOrder = (req, res) => {
     DbService.connectToDb(async (db) => {
+        const request = {
+            orderId: req.body.orderId,
+            orderItems: req.body.orderItems
+        }
         try {
-            await OrderService.addOneItemToOrder(db, req)
+            await OrderService.addItemsToOrder(db, request)
             let response = JSONResponseService.generateSuccessResponse()
             response.message = "Dish successfully added to order"
             return res.json(response)

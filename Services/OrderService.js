@@ -23,9 +23,9 @@ const updateOrder = async (db, orderId, newOrderItems) => {
     return result.modifiedCount
 }
 
-const addOneItemToOrder = async (db, req) => {
-    const order = await getOrder(db, req.body.orderId)
-    const itemsToAdd = req.body.orderItems
+const addItemsToOrder = async (db, request) => {
+    const order = await getOrder(db, request.orderId)
+    const itemsToAdd = request.orderItems
 
     for (const item of itemsToAdd) {
         await DishesService.getOneDish(db, item.menuItemId)
@@ -37,9 +37,9 @@ const addOneItemToOrder = async (db, req) => {
         }
     }
 
-    const updateSuccess = updateOrder(db, req.body.orderId, order.orderItems)
+    const updateSuccess = updateOrder(db, request.orderId, order.orderItems)
     return updateSuccess.modifiedCount
 }
 
 module.exports.createNewOrder = createNewOrder
-module.exports.addOneItemToOrder = addOneItemToOrder
+module.exports.addItemsToOrder = addItemsToOrder
