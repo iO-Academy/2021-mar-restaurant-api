@@ -1,6 +1,7 @@
 const DbService = require('../Services/DbService')
 const OrderService = require('../Services/OrderService')
 const JSONResponseService = require('../Services/JSONResponseService')
+const PriceService = require('../Services/PriceService')
 const ObjectId = require('mongodb').ObjectId
 const orderValidate = require('../Validators/newOrderValidator.json')
 const addToOrderValidate = require('../Validators/addItemsToOrderValidator.json')
@@ -84,15 +85,10 @@ let submitFinalOrder = (req, res) => {
             orderId: ObjectId(req.body.orderId)
         }
 
-        const entireOrder = await OrderService.getFinalOrderDetails(db, order.orderId)
-        let totalPrice = 0
-        for(const orderItem of entireOrder.orderItems) {
-            const dishId = ObjectId(orderItem.menuItemId)
-            const dishPrice = await OrderService.getDishPriceById(db, dishId)
-            const totalItemPrice = ((dishPrice * 100 * orderItem.quantity) / 100)
-            totalPrice += totalItemPrice
-        }
-        const finalisedOrder = await OrderService.submitFinalOrder(db, order, totalPrice)
+        const finalisedOrder = await OrderService.getFinalOrderDetails(db, order.orderId)
+        let totalPrice = await PriceService.calculateTotalPrice(db, finalisedOrder)
+        const submittedOrder = await OrderService.submitFinalOrder(db, order, totalPrice)
+        return res.send('yes')
 
 
 
@@ -107,6 +103,8 @@ let submitFinalOrder = (req, res) => {
         // return res.json(response)
     })
 }
+
+
 
 
 
