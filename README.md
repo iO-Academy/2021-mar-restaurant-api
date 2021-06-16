@@ -121,7 +121,6 @@ This endpoint allows you to create a new order.
 		"firstLineOfAddress": "1 Widcombe Crescent",
 		"postcode": "BA2 6AH",
 		"email": "deliciousFood@food.com"
-
         }
 ```
 
@@ -289,9 +288,9 @@ If the dish ID is incorrect:
 This endpoint allows you to remove an item entirely from an order.
 
 ##### Data Params
-```JavaScript
+```json
 	 {
-        "orderId": "60c73afb0b5f5c23d4a61688"
+        "orderId": "60c73afb0b5f5c23d4a61688",
         "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61689"}]
     }
    ```

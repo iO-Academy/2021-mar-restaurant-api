@@ -46,45 +46,31 @@ let removeOrderItem = (req, res) => {
     DbService.connectToDb(async (db) => {
         const item = {
             orderId: ObjectId(req.body.orderId),
-            menuItemId: req.body.menuItemId
+            menuItemId: ObjectId(req.body.menuItemId)
         }
         try {
             const removeOrder = await OrderService.removeOrderItem(db, item)
-            if (removeOrder.matchedCount === 1) {
-                console.log(removeOrder)
-                let response = JSONResponseService.generateSuccessResponse()
-                response.message = "Dish successfully deleted from order"
-                return res.json(response)
-            }
+            res.json(removeOrder)
         } catch (e) {
-            let response = JSONResponseService.generateFailureResponse()
-            response.message = "Item not found so cannot be deleted from order."
-            return res.json(response)
+            res.send('doesnt work')
         }
+        res.send('not doing anything')
 
-        const newOrderValidate = ajv.compile(orderValidate)
-        const valid = newOrderValidate(order)
-        if (valid) {
-            try {
-                const newOrder = await OrderService.createNewOrder(db, order)
-                if (newOrder.insertedCount === 1) {
-                    let response  = JSONResponseService.generateSuccessResponse()
-                    response.message = "Order created"
-                    response.data = newOrder.ops
-                    return res.json(response)
-                }
-            } catch (e) {
-                let response = JSONResponseService.generateFailureResponse()
-                response.message = "Database request failed"
-                return res.json(response)
-            }
-        }
-        let response = JSONResponseService.generateFailureResponse()
-        response.message = "Validator failed"
-        return res.json(response)
     })
 }
-
+        // try {
+        //     const removeOrder = await OrderService.removeOrderItem(db, item)
+        //     if (removeOrder.matchedCount === 1) {
+        //         console.log(removeOrder)
+        //         let response = JSONResponseService.generateSuccessResponse()
+        //         response.message = "Dish successfully deleted from order"
+        //         return res.json(response)
+        //     }
+        // } catch (e) {
+        //     let response = JSONResponseService.generateFailureResponse()
+        //     response.message = "Item not found so cannot be deleted from order."
+        //     return res.json(response)
+        // }
 
 
 module.exports.removeOrderItem = removeOrderItem

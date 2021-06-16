@@ -4,11 +4,11 @@ let createNewOrder = async (db, order) => {
     return result
 }
 
-let removeOrderItem = async (db, order) => {
+let removeOrderItem = async (db, item) => {
     const collection = db.collection('orders')
     const result = await collection.updateOne(
-        {_id: order.orderId},
-        {$pull: {orderItem: {menuItemId: order.menuItemId}}})
+        {_id: item.orderId},
+        {$pull: {orderItems: {menuItemId: item.menuItemId}}})
     return result
 }
 
