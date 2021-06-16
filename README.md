@@ -1,8 +1,9 @@
 ### Collection Structure
 ##### Collection structure for restaurant.dishes
 
+
 | Property      | Value     | Type     |
-| :------------- | :----------: | :----------: | 
+| :------------- | :----------: | :----------: |
 | _id |  Unique menu item id, auto-generated  | String |
 | name   | Name of dish | String |
 | description   | Description of the dish | String |
@@ -12,7 +13,7 @@
 ##### Collection structure for orders
 
 | Property      | Value     | Type     |
-| :------------- | :----------: | :----------: | 
+| :------------- | :----------: | :----------: |
 | _id |  Unique order id, auto-generated  | String |
 | name   | Name of customer | String |
 | deliveryAddress   | Address of customer where order needs to be delivered | String |
@@ -93,7 +94,7 @@ fetch('http://localhost:3000/dishes')
 		"success": true,
 		"message": "Final order successfully recieved",
 		"status": 200,
-		"data": [{}, {}, {}]
+		"data": [{"menuItemId": "" , "quantity": "1"]
 	}
 
 ##### Error Response
@@ -114,19 +115,20 @@ This endpoint allows you to create a new order.
 
 
 ##### Data Params
-
+```json
         {
-        	"name": "Ashley Coles",
+        "name": "Ashley Coles",
 		"firstLineOfAddress": "1 Widcombe Crescent",
 		"postcode": "BA2 6AH",
-		"email": "deliciousFood@food.com",
-        }
+		"email": "deliciousFood@food.com"
 
+        }
+```
 
 ##### Sample Call
 
-
-	fetch('http://localhost:3000/orders', {
+```javascript
+    fetch('http://localhost:3000/orders', {
         	"method": POST,
         	"body": JSON.stringify(/* your data goes here */),
         	"headers": 
@@ -138,9 +140,11 @@ This endpoint allows you to create a new order.
 				//do stuff with your data
 			})
    	 })
+```    
 
 ##### Success Response
-
+    
+```json
         {
             "success": true,
             "message": "Order created",
@@ -149,35 +153,36 @@ This endpoint allows you to create a new order.
                 {
 		 	"_id": "60c73afb0b5f5c23d4a61688",
 			"name": "Ashley Coles",
-			"firstLineOfAddress": "1 Widcombe Crescent",
+            "firstLineOfAddress": "Melksham",
 			"postcode": "BA2 6AH",
 			"email": "deliciousFood@food.com",
-			"isOrderSubmitted": false,
-			"timePlaced": "2000-01-01T00:00:00.000+00:00"
-			"orderItems": [{"menuItemId": "" , "quantity": "1"]
                 }
             ]
         }
-        
+```
 
 ##### Error Responses
 
-If the wrong datatypes are submitted
+If the validator fails
 
+```json
          {
             "success": false,
-            "message": "Must fulfil all required fields",
+            "message": "Validator failed",
             "status": 404
         }
-		
+```
+
 If the request fails to connect to the database
 
+
+```json
          {
             "success": false,
             "message": "Database request failed",
             "status": 404
         }		
-
+```
 
 ### PUT
 
@@ -338,7 +343,6 @@ This endpoint will send your order to the restaurant and cannot be taken back.
 
 	 {
            "_id": "60c73afb0b5f5c23d4a61688"
-           "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61689", "quantity": 1}]
         }
 
 
