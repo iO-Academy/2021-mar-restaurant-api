@@ -9,7 +9,7 @@ let submitFinalOrder = async  (db, order) => {
     const timePlaced = new Date()
     const result = await collection.updateOne(
         { _id: order.orderId},
-        {$set: {isOrderSubmitted: true, timePlaced: timePlaced}})
+        {$set: {isOrderSubmitted: true, timePlaced: timePlaced, totalPrice: 0}})
     return result
 }
 
