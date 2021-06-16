@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "required": ["name", "firstLineOfAddress", "postcode", "email"],
+  "allOf": [{
+    "properties": {
+      "name": {"type": "string", "pattern": "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"},
+      "firstLineOfAddress": {"type": "string"},
+      "postcode": {"type": "string", "pattern": "^[A-Z]{1,2}[0-9]{1,2}[A-Z]?(\\s*[0-9][A-Z]{1,2})?$"},
+      "email": {"type": "string", "format": "email"}
+    },
+    "additionalProperties": false
+  }]
+}
+
