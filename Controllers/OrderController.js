@@ -1,7 +1,8 @@
 const DbService = require('../Services/DbService')
 const OrderService = require('../Services/OrderService')
+const JSONResponseService = require('../Services/JSONResponseService')
 
-let createNewOrder = (req, res) => {
+const createNewOrder = (req, res) => {
     DbService.connectToDb(async (db) => {
         const order = {
             name: req.body.name,
@@ -31,8 +32,16 @@ let createNewOrder = (req, res) => {
 
 const addToOrder = (req, res) => {
     DbService.connectToDb(async (db) => {
-        const result = await OrderService.addOneItemToOrder(db, req)
-        res.json({ "name": 1 })
+        try {
+            await OrderService.addOneItemToOrder(db, req)
+            let response = JSONResponseService.generateSuccessResponse()
+            response.message = "Dish successfully added to order"
+            return res.json(response)
+        } catch (e) {
+            let response = JSONResponseService.generateFailureResponse()
+            response.message = "Dish not found so cannot add to order"
+            return res.json(response)
+        }
     })
 }
 

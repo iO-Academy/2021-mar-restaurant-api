@@ -2,10 +2,10 @@ const DbService = require('../Services/DbService')
 const DishesService = require('../Services/DishesService')
 const JSONResponseService = require('../Services/JSONResponseService')
 
-let getAllDishes = (req, res) => {
+const getAllDishes = (req, res) => {
     DbService.connectToDb(async (db) => {
         try {
-            let dishes = await DishesService.getAllDishes(db, req)
+            const dishes = await DishesService.getAllDishes(db, req)
             let response = JSONResponseService.generateSuccessResponse()
             response.message = "Requested starters retrieved successfully."
             response.data = dishes
@@ -18,7 +18,7 @@ let getAllDishes = (req, res) => {
     })
 }
 
-let getAllDishesOfType = (req, res) => {
+const getAllDishesOfType = (req, res) => {
     DbService.connectToDb(async (db) => {
         if (
             req.params.course === 'starters' ||
@@ -27,7 +27,7 @@ let getAllDishesOfType = (req, res) => {
             req.params.course === 'refreshments'
         ) {
             try {
-                let dishes = await DishesService.getAllDishesOfType(db, req.params.course)
+                const dishes = await DishesService.getAllDishesOfType(db, req.params.course)
                 let response = JSONResponseService.generateSuccessResponse()
                 response.message = "Requested " + req.params.course + " retrieved successfully."
                 response.data = dishes
