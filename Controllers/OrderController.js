@@ -3,6 +3,7 @@ const OrderService = require('../Services/OrderService')
 const JSONResponseService = require('../Services/JSONResponseService')
 
 const orderValidate = require('../Validators/newOrderValidator.json')
+const addToOrderValidate = require('../Validators/addItemsToOrderValidator.json')
 const Ajv = require('ajv')
 const addFormats = require('ajv-formats')
 
@@ -47,15 +48,21 @@ const addToOrder = (req, res) => {
             orderId: req.body.orderId,
             orderItems: req.body.orderItems
         }
-        try {
-            await OrderService.addItemsToOrder(db, request)
-            let response = JSONResponseService.generateSuccessResponse()
-            response.message = "Dish successfully added to order"
-            return res.json(response)
-        } catch (e) {
-            let response = JSONResponseService.generateFailureResponse()
-            response.message = "Dish not found so cannot add to order"
-            return res.json(response)
+
+        const compile = ajv.compile(addToOrderValidate)
+        const valid = compile(request)
+
+        if (valid) {
+            try {
+                await OrderService.addItemsToOrder(db, request)
+                let response = JSONResponseService.generateSuccessResponse()
+                response.message = "Dish successfully added to order"
+                return res.json(response)
+            } catch (e) {
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "Dish not found so cannot add to order"
+                return res.json(response)
+            }
         }
     })
 }
