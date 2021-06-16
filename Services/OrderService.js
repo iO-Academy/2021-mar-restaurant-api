@@ -16,7 +16,7 @@ let submitFinalOrder = async  (db, order, totalPrice) => {
     return result
 }
 
-let getFinalOrderDetails = async (db, orderId) => {
+let getOrderDetails = async (db, orderId) => {
     const collection = db.collection('orders')
     const result = await collection.findOne({_id: orderId})
     return result
@@ -63,7 +63,7 @@ let getDishPriceById = async (db, dishId) => {
 
 module.exports.createNewOrder = createNewOrder
 module.exports.submitFinalOrder = submitFinalOrder
-module.exports.getFinalOrderDetails = getFinalOrderDetails
+module.exports.getOrderDetails = getOrderDetails
 module.exports.addItemsToOrder = addItemsToOrder
 module.exports.getDishPriceById = getDishPriceById
 

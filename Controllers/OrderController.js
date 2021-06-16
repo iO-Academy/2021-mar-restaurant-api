@@ -85,7 +85,7 @@ let submitFinalOrder = (req, res) => {
             orderId: ObjectId(req.body.orderId)
         }
         try {
-            const finalisedOrder = await OrderService.getFinalOrderDetails(db, order.orderId)
+            const finalisedOrder = await OrderService.getOrderDetails(db, order.orderId)
             const totalPrice = await PriceService.calculateTotalPrice(db, finalisedOrder)
             const submittedOrder = await OrderService.submitFinalOrder(db, order, totalPrice)
             if (submittedOrder.modifiedCount === 1) {
@@ -104,6 +104,16 @@ let submitFinalOrder = (req, res) => {
     })
 }
 
+let getOrderDetails = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        const order = {
+            orderId: ObjectId(req.params.id)
+        }
+            const orderDetails = await OrderService.getOrderDetails(db, order.orderId)
+            return res.json(orderDetails)
+    })
+}
+
 
 
 
@@ -113,4 +123,4 @@ module.exports.createNewOrder = createNewOrder
 module.exports.submitFinalOrder = submitFinalOrder
 module.exports.addToOrder = addToOrder
 module.exports.getDishPriceById = getDishPriceById
-
+module.exports.getOrderDetails = getOrderDetails
