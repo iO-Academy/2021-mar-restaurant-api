@@ -55,8 +55,15 @@ const addItemsToOrder = async (db, itemsToOrder) => {
     return updateSuccess.modifiedCount
 }
 
+let getDishPriceById = async (db, dishId) => {
+    const collection = db.collection('dishes')
+    const data = await collection.findOne({_id: dishId})
+    return data
+}
+
 module.exports.createNewOrder = createNewOrder
 module.exports.submitFinalOrder = submitFinalOrder
 module.exports.getFinalOrderDetails = getFinalOrderDetails
 module.exports.addItemsToOrder = addItemsToOrder
+module.exports.getDishPriceById = getDishPriceById
 

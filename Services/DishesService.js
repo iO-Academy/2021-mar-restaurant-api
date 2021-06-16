@@ -20,6 +20,7 @@ const getOneDish = async (db, dishId) => {
     return update
 }
 
+
 module.exports.getAllDishes = getAllDishes
 module.exports.getAllDishesOfType = getAllDishesOfType
 module.exports.getOneDish = getOneDish

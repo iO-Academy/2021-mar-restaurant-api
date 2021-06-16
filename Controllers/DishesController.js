@@ -47,15 +47,8 @@ const getAllDishesOfType = (req, res) => {
     })
 }
 
-let getDishPriceById = (req, res) => {
-    DbService.connectToDb(async (db) => {
-        const dishId = ObjectId(req.params.id)
-        const dish = await DishesService.getDishById(db, dishId)
-        const dishPrice = dish.price
-        res.json(dishPrice)
-    })
-}
+
 
 module.exports.getAllDishes = getAllDishes
 module.exports.getAllDishesOfType = getAllDishesOfType
-module.exports.getDishPriceById = getDishPriceById
+

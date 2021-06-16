@@ -70,6 +70,15 @@ const addToOrder = (req, res) => {
     })
 }
 
+let getDishPriceById = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        const dishId = ObjectId(req.params.id)
+        const dish = await OrderService.getDishPriceById(db, dishId)
+        const dishPrice = dish.price
+        res.json(dishPrice)
+    })
+}
+
 let submitFinalOrder = (req, res) => {
     DbService.connectToDb(async (db) => {
         const order = {
@@ -78,6 +87,12 @@ let submitFinalOrder = (req, res) => {
         const finalisedOrder = await OrderService.submitFinalOrder(db, order)
         if (finalisedOrder.modifiedCount === 1) {
             const entireOrder = await OrderService.getFinalOrderDetails(db, order)
+            console.log(entireOrder)
+            // for( const orderItem of entireOrder) {
+            //     console.log(orderItem)
+                // let prices = await DishesController.getDishPriceById(db, orderItem.menuItemId)
+                // console.log(prices)
+            // }
             let response = JSONResponseService.generateSuccessResponse()
             response.message = "The order has been placed with the dishes as detailed below"
             response.data = entireOrder
@@ -94,4 +109,5 @@ let submitFinalOrder = (req, res) => {
 module.exports.createNewOrder = createNewOrder
 module.exports.submitFinalOrder = submitFinalOrder
 module.exports.addToOrder = addToOrder
+module.exports.getDishPriceById = getDishPriceById
 
