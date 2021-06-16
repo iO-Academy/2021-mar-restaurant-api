@@ -84,23 +84,23 @@ let submitFinalOrder = (req, res) => {
         const order = {
             orderId: ObjectId(req.body.orderId)
         }
-
-        const finalisedOrder = await OrderService.getFinalOrderDetails(db, order.orderId)
-        let totalPrice = await PriceService.calculateTotalPrice(db, finalisedOrder)
-        const submittedOrder = await OrderService.submitFinalOrder(db, order, totalPrice)
-        return res.send('yes')
-
-
-
-
-        // let response = JSONResponseService.generateSuccessResponse()
-            // response.message = "The order has been placed with the dishes as detailed below"
-            // response.data = entireOrder
-            // return res.json(response)
-
-        // let response = JSONResponseService.generateFailureResponse()
-        // response.message = "Order could not be found"
-        // return res.json(response)
+        try {
+            const finalisedOrder = await OrderService.getFinalOrderDetails(db, order.orderId)
+            const totalPrice = await PriceService.calculateTotalPrice(db, finalisedOrder)
+            const submittedOrder = await OrderService.submitFinalOrder(db, order, totalPrice)
+            if (submittedOrder.modifiedCount === 1) {
+                let response = JSONResponseService.generateSuccessResponse()
+                response.message = "Your order has been placed"
+                return res.json(response)
+            }
+            let response = JSONResponseService.generateFailureResponse()
+            response.message = "Order could not be found"
+            return res.json(response)
+        } catch (e) {
+            let response = JSONResponseService.generateFailureResponse()
+            response.message = "Database request failed"
+            return res.json(response)
+        }
     })
 }
 
