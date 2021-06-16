@@ -13,12 +13,14 @@ let getAllDishesOfType = async (db, course) => {
     return data
 }
 
-let getDishPriceById = async (db, dishId) => {
+const getOneDish = async (db, dishId) => {
     const collection = db.collection('dishes')
-    const data = await collection.findOne({_id: dishId})
-    return data
+    const query = {_id: ObjectId(dishId)}
+    const update = await collection.findOne(query)
+    return update
 }
 
 module.exports.getAllDishes = getAllDishes
 module.exports.getAllDishesOfType = getAllDishesOfType
-module.exports.getDishPriceById = getDishPriceById
+module.exports.getOneDish = getOneDish
+
