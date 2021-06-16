@@ -332,14 +332,14 @@ This endpoint allows you to remove an item entirely from an order.
 This endpoint will send your order to the restaurant and cannot be taken back. 
 
 ##### Data Params
-
+```json
 	 {
            "_id": "60c73afb0b5f5c23d4a61688"
         }
-
+```
 
 ##### Sample Call
-
+```javascript
 	fetch('http://localhost:3000/orders', {
         	"method": PUT,
                 "body": JSON.stringify(/* your data goes here */),
@@ -352,9 +352,10 @@ This endpoint will send your order to the restaurant and cannot be taken back.
                     		//do stuff with your data
                 	 })
        		 })
-
+```
 
 ##### Success Response
+```json
 	{
 		"success": true,
 		"message": "Order submitted",
@@ -372,13 +373,16 @@ This endpoint will send your order to the restaurant and cannot be taken back.
 				],
 		"deliveryTime": "2000-01-01T00:00:00.000+00:00"
 	}
+```
 
 *this success response may change 
 
 ##### Error Response
 
+```json
 	{
 		"success": false,
 		"message": "The resource/s requested does not exist at the desired location.",
 		"status": 404
 	}
+```
