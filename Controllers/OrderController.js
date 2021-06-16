@@ -46,23 +46,17 @@ let submitFinalOrder = (req, res) => {
         const order = {
             orderId: ObjectId(req.body.orderId)
         }
-        try {
-            const finalisedOrder = await OrderService.submitFinalOrder(db, order)
-            if (finalisedOrder.modifiedCount === 1) {
-                const entireOrder = await OrderService.getFinalOrderDetails(db, order)
-            }
-
-
+        const finalisedOrder = await OrderService.submitFinalOrder(db, order)
+        if (finalisedOrder.modifiedCount === 1) {
+            const entireOrder = await OrderService.getFinalOrderDetails(db, order)
             let response = JSONResponseService.generateSuccessResponse()
-            response.message = "Order submitted"
-            response.data = submittedOrder
-            return res.json(response)
-        } catch (e) {
-            let response = JSONResponseService.generateFailureResponse()
-            response.message = "The resources requested do not exist at the desired location."
+            response.message = "This is the final order"
+            response.data = entireOrder
             return res.json(response)
         }
-        res.send("im not in the try catch")
+        let response = JSONResponseService.generateFailureResponse()
+        response.message = "Order could not be found"
+        return res.json(response)
     })
 }
 
