@@ -1,6 +1,5 @@
 const DbService = require('../Services/DbService')
-const DishesService = require('../Services/DishesService')
-const ObjectId = require('mongodb').ObjectId
+const OrderService = require('../Services/OrderService')
 
 let createNewOrder = (req, res) => {
     DbService.connectToDb(async (db) => {
@@ -29,3 +28,13 @@ let createNewOrder = (req, res) => {
         }
     })
 }
+
+const addToOrder = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        const result = await OrderService.addOneItemToOrder(db, req)
+        res.json({ "name": 1 })
+    })
+}
+
+module.exports.createNewOrder = createNewOrder
+module.exports.addToOrder = addToOrder
