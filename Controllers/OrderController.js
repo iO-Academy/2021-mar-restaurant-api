@@ -46,11 +46,12 @@ let removeOrderItem = (req, res) => {
     DbService.connectToDb(async (db) => {
         const item = {
             orderId: ObjectId(req.body.orderId),
-            menuItemId: ObjectId(req.body.menuItemId)
+            menuItemId: req.body.menuItemId,
         }
+        console.log(item)
         try {
             const removeOrder = await OrderService.removeOrderItem(db, item)
-            res.json(removeOrder)
+            res.send('hello')
         } catch (e) {
             res.send('doesnt work')
         }
