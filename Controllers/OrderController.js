@@ -50,7 +50,7 @@ let submitFinalOrder = (req, res) => {
         if (finalisedOrder.modifiedCount === 1) {
             const entireOrder = await OrderService.getFinalOrderDetails(db, order)
             let response = JSONResponseService.generateSuccessResponse()
-            response.message = "This is the final order"
+            response.message = "The order has been placed with the dishes as detailed below"
             response.data = entireOrder
             return res.json(response)
         }

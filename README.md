@@ -357,32 +357,28 @@ This endpoint will send your order to the restaurant and cannot be taken back.
 ##### Success Response
 ```json
 	{
-		"success": true,
-		"message": "Order submitted",
-		"status": 200,
-		"data": [
-					{
-						"_id": "60c73afb0b5f5c23d4a61688",
-						"name": "Ashley Coles",
-						"deliveryAddress": "BA2 6AH",
-						"email": "deliciousFood@food.com",
-						"isOrderSubmitted": true,
-						"timePlaced": "2000-01-01T00:00:00.000+00:00"
-						"orderItems": [{},{}]
-                    }
-				],
-		"deliveryTime": "2000-01-01T00:00:00.000+00:00"
-	}
-```
+        "success": true,
+        "message": "The order has been placed with the dishes as detailed below",
+        "status": 200,
+        "data": {
+          "_id": "60c8c45737e05acb27e9d1e8"
+        },
+        "name": "Ashley Coles",
+        "firstLineOfAddress": "1 Widcombe Crescent",
+        "postcode": "BS3 4NF",
+        "email": "deliciousFood@food.com",
+        "isOrderSubmitted": true,
+        "timePlaced": "2021-06-16T11:00:02.340Z"
+  }
 
-*this success response may change 
+```
 
 ##### Error Response
 
 ```json
 	{
 		"success": false,
-		"message": "The resources requested do not exist at the desired location.",
+		"message": "Order could not be found",
 		"status": 404
 	}
 ```
