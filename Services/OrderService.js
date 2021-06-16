@@ -23,11 +23,10 @@ const updateOrder = async (db, orderId, newOrderItems) => {
     return result.modifiedCount
 }
 
-const addItemsToOrder = async (db, request) => {
-    const order = await getOrder(db, request.orderId)
-    const itemsToAdd = request.orderItems
+const addItemsToOrder = async (db, itemsToOrder) => {
+    const order = await getOrder(db, itemsToOrder.orderId)
 
-    for (const item of itemsToAdd) {
+    for (const item of itemsToOrder.orderItems) {
         await DishesService.getOneDish(db, item.menuItemId)
         let index = order.orderItems.findIndex(orderItem => orderItem.menuItemId === item.menuItemId)
         if (index !== (-1)) {
@@ -37,7 +36,7 @@ const addItemsToOrder = async (db, request) => {
         }
     }
 
-    const updateSuccess = updateOrder(db, request.orderId, order.orderItems)
+    const updateSuccess = updateOrder(db, itemsToOrder.orderId, order.orderItems)
     return updateSuccess.modifiedCount
 }
 

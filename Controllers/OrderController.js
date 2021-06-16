@@ -44,17 +44,17 @@ const createNewOrder = (req, res) => {
 
 const addToOrder = (req, res) => {
     DbService.connectToDb(async (db) => {
-        const request = {
+        const itemsToOrder = {
             orderId: req.body.orderId,
             orderItems: req.body.orderItems
         }
 
         const compile = ajv.compile(addToOrderValidate)
-        const valid = compile(request)
+        const valid = compile(itemsToOrder)
 
         if (valid) {
             try {
-                await OrderService.addItemsToOrder(db, request)
+                await OrderService.addItemsToOrder(db, itemsToOrder)
                 let response = JSONResponseService.generateSuccessResponse()
                 response.message = "Dish successfully added to order"
                 return res.json(response)
