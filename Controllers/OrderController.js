@@ -18,6 +18,7 @@ const createNewOrder = (req, res) => {
             firstLineOfAddress: req.body.firstLineOfAddress,
             postcode: req.body.postcode,
             email: req.body.email,
+            orderItems: []
         }
 
         const newOrderValidate = ajv.compile(orderValidate)
