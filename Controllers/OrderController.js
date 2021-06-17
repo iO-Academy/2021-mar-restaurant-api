@@ -83,7 +83,7 @@ let getDishPriceById = (req, res) => {
     DbService.connectToDb(async (db) => {
         const dishId = ObjectId(req.params.id)
         const dish = await DishesService.getDishPriceById(db, dishId)
-        return res.json(dish.price)
+        return res.json(dish)
     })
 }
 
@@ -100,6 +100,7 @@ let submitFinalOrder = (req, res) => {
             try {
                 const finalisedOrder = await OrderService.getOrderDetails(db, order.orderId)
                 const totalPrice = await PriceService.calculateTotalPrice(db, finalisedOrder)
+                console.log(totalPrice)
                 let isSubmitted = finalisedOrder.isOrderSubmitted
                 if (isSubmitted !== true) {
                     await OrderService.submitFinalOrder(db, order, totalPrice)

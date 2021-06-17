@@ -23,7 +23,7 @@ const getOneDish = async (db, dishId) => {
 let getDishPriceById = async (db, dishId) => {
     const collection = db.collection('dishes')
     const dish = await collection.findOne({_id: dishId})
-    return dish
+    return dish.price
 }
 
 module.exports.getAllDishes = getAllDishes

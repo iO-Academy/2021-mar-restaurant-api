@@ -18,11 +18,15 @@
 | Property      | Value     | Type     |
 | :------------- | :----------: | :----------: |
 | orderItems   | Holds object of each menu item id and quantity that customer has ordered | Array |
-| isOrderSubmitted | Has the customer submitted final order (set to false) | Bool |
+| isOrderSubmitted | Has the customer submitted final order (set to false initially) | Bool |
 | totalPrice   | Price of all items in orderItems (set to 0 initially) | int |
 ##### Collection fields added when order is reviewed for submission
+| Property      | Value     | Type     |
+| :------------- | :----------: | :----------: |
 | timePlaced   | Time order was submitted by customer | Date |
 ##### Collection fields updated when order is reviewed for submission
+| Property      | Value     | Type     |
+| :------------- | :----------: | :----------: |
 | isOrderSubmitted | Has the customer submitted final order -> updated to true | Bool |
 | totalPrice   | Price of all items in orderItems -> updated to reflect total price | int |
 ## API Calls
@@ -59,11 +63,11 @@ fetch('http://localhost:3000/dishes')
 ```
 ##### Error Response
 ```json
-{
+  {
     "success": false,
     "message": "The resources requested do not exist at the desired location.",
     "status": 404
-}
+  }
 ```
 #### Retrieving a single dish
 `GET /dishes/:id`
@@ -112,16 +116,16 @@ fetch('http://localhost:3000/orders/:id')
 ```
 ##### Success Response
 ```json
-        {
-            "_id": "60c73afb0b5f5c23d4a61688",
-            "name": "isabelle",
-            "deliveryAddress": "bs7 9se",
-            "email": "isabelle@hotmail.co.uk",
-            "orderItems": [],
-            "isOrderSubmitted": true,
-            "timePlaced": "2021-06-17T08:42:53.925Z",
-            "totalPrice": 0
-         }
+{
+   "_id": "60c73afb0b5f5c23d4a61688",
+    "name": "isabelle",
+    "deliveryAddress": "bs7 9se",
+    "email": "isabelle@hotmail.co.uk",
+    "orderItems": [],
+    "isOrderSubmitted": true,
+    "timePlaced": "2021-06-17T08:42:53.925Z",
+    "totalPrice": 0
+}
 ```
 ##### Error Response
 ```json
@@ -137,61 +141,59 @@ fetch('http://localhost:3000/orders/:id')
 This endpoint allows you to create a new order.
 ##### Data Params
 ```json
-        {
-                "name": "Ashley Coles",
-      "firstLineOfAddress": "1 Widcombe Crescent",
-      "postcode": "BA2 6AH",
-      "email": "deliciousFood@food.com"
-        }
+  {
+    "name": "Ashley Coles",
+    "firstLineOfAddress": "1 Widcombe Crescent", 
+    "postcode": "BA2 6AH",
+    "email": "deliciousFood@food.com"
+  }
 ```
 ##### Sample Call
 ```javascript
-    fetch('http://localhost:3000/orders', {
-           "method": POST,
-           "body": JSON.stringify(/* your data goes here */),
-           "headers": 
-      {
-               "content-type": "application/JSON"
-           }
-         .then (res => res.json())
-         .then ((data) => {
+fetch('http://localhost:3000/orders', {
+    "method": POST,
+    "body": JSON.stringify(/* your data goes here */),
+    "headers": 
+        {
+            "content-type": "application/JSON"
+        }
+            .then (res => res.json())
+            .then ((data) => {
             //do stuff with your data
          })
-        })
+})
 ```    
 ##### Success Response
 ```json
-        {
-            "success": true,
-            "message": "Order created",
-            "status": 200,
-            "data": [
-                {
-         "_id": "60c73afb0b5f5c23d4a61688",
-         "name": "Ashley Coles",
-                        "firstLineOfAddress": "Melksham",
-         "postcode": "BA2 6AH",
-         "email": "deliciousFood@food.com",
-                }
-            ]
-        }
+{
+  "success": true,
+  "message": "Order created",
+  "status": 200,
+  "data": [{
+      "_id": "60c73afb0b5f5c23d4a61688",
+      "name": "Ashley Coles",
+      "firstLineOfAddress": "Melksham",
+      "postcode": "BA2 6AH",
+      "email": "deliciousFood@food.com",
+    }]
+}
 ```
 ##### Error Responses
 If the validator fails
 ```json
-         {
-            "success": false,
-            "message": "Validator failed",
-            "status": 404
-        }
+{
+  "success": false,
+  "message": "Validator failed",
+  "status": 404
+}
 ```
 If the request fails to connect to the database
 ```json
-         {
-            "success": false,
-            "message": "Database request failed",
-            "status": 404
-        }     
+{
+  "success": false,
+  "message": "Database request failed",
+  "status": 404
+}     
 ```
 ### PUT
 #### Adding items to an order
@@ -199,8 +201,8 @@ If the request fails to connect to the database
 ##### Data Params
 ```json
 {
-    "orderId": "60c73afb0b5f5c23d4a61688"
-    "orderItems": [{"menuItemId": "60c73afb0b5234f3d4a61688", "quantity": 4}]
+  "orderId": "60c73afb0b5f5c23d4a61688"
+  "orderItems": [{"menuItemId": "60c73afb0b5234f3d4a61688", "quantity": 4}]
 }
 ```
 ##### Sample Call
@@ -237,11 +239,14 @@ fetch('http://localhost:3000/orders', {
 ### Edit quantities of dishes in orders
 `PUT /orders/editQuantity`
 ##### Data Params
+```json
 {
-"_id": "60c73afb0b5f5c23d4a61688"
-"orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61688" , "quantity": 1}]
+    "_id": "60c73afb0b5f5c23d4a61688"
+    "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61688" , "quantity": 1}]
 }
+```
 ##### Sample Call
+```javascript
     fetch('http://localhost:3000/orders', {
                   "method": PUT,
                   "body": JSON.stringify(/* your data goes here */),
@@ -254,25 +259,33 @@ fetch('http://localhost:3000/orders', {
                         //do stuff with your data
                 })
         })
+```
 ##### Success Response
+```json
 {
-"success": true,
-"message": "Your dish quantity was successfully edited.",
-"status": 200
+    "success": true,
+    "message": "Your dish quantity was successfully edited.",
+    "status": 200
 }
+```
 ##### Error Response
 If the DB fails to update the dish quantity:
+```json
 {
-"success": false,
-"message": "Dish quantity was not updated",
-"status": 400
+  "success": false,
+  "message": "Dish quantity was not updated",
+  "status": 400
 }
+```
+
 If the dish ID is incorrect:
+```json
 {
 "success": false,
 "message": "There is no dish found with that ID.",
 "status": 404
 }
+```
 #### Removing an item (in any quantity) from an order
 `PUT /orders/removeDish`
 This endpoint allows you to remove an item entirely from an order.
