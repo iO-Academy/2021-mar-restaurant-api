@@ -7,6 +7,8 @@ const ObjectId = require('mongodb').ObjectId
 const orderValidate = require('../Validators/newOrderValidator.json')
 const addToOrderValidate = require('../Validators/addItemsToOrderValidator.json')
 const idRemoveValidator = require('../Validators/removeOrderItem.json')
+const submitOrderValidate = require('../Validators/submitFinalOrder.json')
+
 
 const Ajv = require('ajv')
 const addFormats = require('ajv-formats')
@@ -21,6 +23,8 @@ const createNewOrder = (req, res) => {
             firstLineOfAddress: req.body.firstLineOfAddress,
             postcode: req.body.postcode,
             email: req.body.email,
+            totalCost: 0,
+            isOrderSubmitted: false
         }
 
         const newOrderValidate = ajv.compile(orderValidate)
@@ -87,24 +91,36 @@ let submitFinalOrder = (req, res) => {
         const order = {
             orderId: ObjectId(req.body.orderId)
         }
-        try {
-            const finalisedOrder = await OrderService.getOrderDetails(db, order.orderId)
-            const totalPrice = await PriceService.calculateTotalPrice(db, finalisedOrder)
-            const submittedOrder = await OrderService.submitFinalOrder(db, order, totalPrice)
-            if (submittedOrder.modifiedCount === 1) {
-                let response = JSONResponseService.generateSuccessResponse()
-                response.data = await OrderService.getOrderDetails(db, order.orderId)
-                response.message = "The order has been placed"
+
+        const compile = ajv.compile(submitOrderValidate)
+        const valid = compile(order)
+
+        if(valid) {
+            try {
+                const finalisedOrder = await OrderService.getOrderDetails(db, order.orderId)
+                console.log('hello')
+                const totalPrice = await PriceService.calculateTotalPrice(db, finalisedOrder)
+                let isSubmitted = finalisedOrder.isOrderSubmitted
+                console.log('here')
+                if (isSubmitted !== true) {
+                    await OrderService.submitFinalOrder(db, order, totalPrice)
+                    let response = JSONResponseService.generateSuccessResponse()
+                    response.data = await OrderService.getOrderDetails(db, order.orderId)
+                    response.message = "The order has been placed"
+                    return res.json(response)
+                }
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "Order has already been submitted"
+                return res.json(response)
+            } catch (e) {
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "Database request failed"
                 return res.json(response)
             }
-            let response = JSONResponseService.generateFailureResponse()
-            response.message = "Order has already been submitted"
-            return res.json(response)
-        } catch (e) {
-            let response = JSONResponseService.generateFailureResponse()
-            response.message = "Database request failed"
-            return res.json(response)
         }
+        let response = JSONResponseService.generateFailureResponse()
+        response.message = "Please ensure your orderId is correct."
+        return res.json(response)
     })
 }
 

@@ -3,7 +3,7 @@ const DishesService = require('../Services/DishesService')
 
 let createNewOrder = async (db, order) => {
     const collection = db.collection('orders')
-    const result = await collection.insertOne(order, {totalCost: 0})
+    const result = await collection.insertOne(order)
     return result
 }
 
