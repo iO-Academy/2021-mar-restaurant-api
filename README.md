@@ -489,8 +489,8 @@ fetch('http://localhost:3000/orders/submitOrder', {
   "data": {
     "_id": "60c73afb0b5f5c23d4a61688",
     "name": "jenny",
-    "deliveryAddress": "bs5 9qb",
-    "email": "isabelle_cochrane@hotmail.co.uk",
+    "deliveryAddress": "bs2 5qb",
+    "email": "hello@hotmail.co.uk",
     "isOrderSubmitted": true,
     "timePlaced": "2021-06-17T16:23:44.600Z",
     "orderItems": [
