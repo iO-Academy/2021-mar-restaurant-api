@@ -70,7 +70,7 @@ const addToOrder = (req, res) => {
                 return res.json(response)
             } catch (e) {
                 let response = JSONResponseService.generateFailureResponse()
-                response.message = "Dish not found so cannot add to order"
+                response.message = "Order or menu item not found so cannot add to order"
                 return res.json(response)
             }
         }
@@ -129,6 +129,24 @@ const editOrderItemQuantity = (req, res) => {
             menuItemId: req.body.menuItemId,
             quantity: req.body.quantity
         }
+        const order = await OrderService.getOrder(db, itemsToAmend.orderId)
+
+        if (
+            itemsToAmend.quantity <= 0 ||
+            !Number.isInteger(itemsToAmend.quantity)
+        ) {
+            let response = JSONResponseService.generateFailureResponse()
+            response.message = "The quantity requested is invalid - it must be a positive integer."
+            return res.json(response)
+        }
+
+        let index = order.orderItems.findIndex(orderItem => orderItem.menuItemId === itemsToAmend.menuItemId)
+
+        if (index === (-1)) {
+            let response = JSONResponseService.generateFailureResponse()
+            response.message = "The selected item is not present in this order. Please try again."
+            return res.json(response)
+        }
 
         const compile = ajv.compile(editOrderItemQuantityValidate)
         const valid = compile(itemsToAmend)
@@ -136,14 +154,13 @@ const editOrderItemQuantity = (req, res) => {
         if (valid) {
             try {
                 const editSuccess = await OrderService.editOrderItemQuantity(db, itemsToAmend)
-                console.log(editSuccess)
                 if (editSuccess) {
                     let response = JSONResponseService.generateSuccessResponse()
                     response.message = "Quantity updated successfully"
                     return res.json(response)
                 }
                 let response = JSONResponseService.generateFailureResponse()
-                response.message = "Dish not found - please check menuItemId"
+                response.message = "Quantity not updated - quantity of selected item is already " + itemsToAmend.quantity
                 return res.json(response)
             } catch (e) {
                 let response = JSONResponseService.generateFailureResponse()

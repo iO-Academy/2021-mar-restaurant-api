@@ -86,4 +86,4 @@ module.exports.removeOrderItem = removeOrderItem
 module.exports.submitFinalOrder = submitFinalOrder
 module.exports.addItemsToOrder = addItemsToOrder
 module.exports.editOrderItemQuantity = editOrderItemQuantity
-
+module.exports.getOrder = getOrder
