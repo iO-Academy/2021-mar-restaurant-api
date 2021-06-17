@@ -4,6 +4,7 @@ const JSONResponseService = require('../Services/JSONResponseService')
 
 const orderValidate = require('../Validators/newOrderValidator.json')
 const addToOrderValidate = require('../Validators/addItemsToOrderValidator.json')
+const editOrderItemQuantityValidate = require('../Validators/editOrderItemQuantityValidator.json')
 const Ajv = require('ajv')
 const addFormats = require('ajv-formats')
 
@@ -70,5 +71,41 @@ const addToOrder = (req, res) => {
     })
 }
 
+const editOrderItemQuantity = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        const itemsToAmend = {
+            orderId: req.body.orderId,
+            menuItemId: req.body.menuItemId,
+            quantity: req.body.quantity
+        }
+
+        const compile = ajv.compile(editOrderItemQuantityValidate)
+        const valid = compile(itemsToAmend)
+
+        if (valid) {
+            try {
+                const editSuccess = await OrderService.editOrderItemQuantity(db, itemsToAmend)
+                console.log(editSuccess)
+                if (editSuccess) {
+                    let response = JSONResponseService.generateSuccessResponse()
+                    response.message = "Quantity updated successfully"
+                    return res.json(response)
+                }
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "Dish not found - please check menuItemId"
+                return res.json(response)
+            } catch (e) {
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "Something went wrong with the database - please try again later"
+                return res.json(response)
+            }
+        }
+        let response = JSONResponseService.generateFailureResponse()
+        response.message = "Invalid data types provided"
+        return res.json(response)
+    })
+}
+
 module.exports.createNewOrder = createNewOrder
 module.exports.addToOrder = addToOrder
+module.exports.editOrderItemQuantity = editOrderItemQuantity
