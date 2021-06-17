@@ -99,10 +99,8 @@ let submitFinalOrder = (req, res) => {
         if(valid) {
             try {
                 const finalisedOrder = await OrderService.getOrderDetails(db, order.orderId)
-                console.log('hello')
                 const totalPrice = await PriceService.calculateTotalPrice(db, finalisedOrder)
                 let isSubmitted = finalisedOrder.isOrderSubmitted
-                console.log('here')
                 if (isSubmitted !== true) {
                     await OrderService.submitFinalOrder(db, order, totalPrice)
                     let response = JSONResponseService.generateSuccessResponse()
