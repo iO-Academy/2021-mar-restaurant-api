@@ -162,12 +162,24 @@ fetch('http://localhost:3000/dishes/individualDishes/:id')
 }
 ```
 
-##### Error Response
+##### Error Responses
+
+If there is an issue interacting with the database
+
 ```json
 {
     "success": false,
     "message": "The resources requested do not exist at the desired location.",
     "status": 404
+}
+```
+
+If the id is invalid
+```json
+{
+    "success": false,
+    "message": "Your menu item does not exist.",
+    "status": 400
 }
 ```
 
