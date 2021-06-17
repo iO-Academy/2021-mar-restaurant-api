@@ -71,10 +71,29 @@ fetch('http://localhost:3000/dishes/:course')
 ##### Success Response
 ```json
 {
-    "success": true,
-    "message": "Requested dishes retrieved successfully.",
-    "status": 200,
-    "data": [{dish}, {dish}, {dish}]
+  "success": true,
+  "message": "Requested mains retrieved successfully.",
+  "status": 200,
+  "data": [
+    {
+      "_id": "60c73a420b5f5c23d4a61685",
+      "name": "burger",
+      "description": "beef and cheese",
+      "price": {
+        "$numberDecimal": "12.99"
+      },
+      "dishType": "mains"
+    },
+    {
+      "_id": "60cb635cdb80fb5673f2c8e2",
+      "name": "mac and cheese",
+      "description": "a very heavy and delicious cheesy dish",
+      "price": {
+        "$numberDecimal": "6.50"
+      },
+      "dishType": "mains"
+    }
+  ]
 }
 ```
 ##### Error Responses
