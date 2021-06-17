@@ -89,31 +89,35 @@ fetch('http://localhost:3000/dishes')
 `GET /orders/:id`
 
 ##### Sample Call
-
+```javascript
 	fetch('http://localhost:3000/orders/:id')
 		.then (res => res.json())
 		.then ((data) => {
 			//do stuff with your data
 			})
    	 })
-
+```
 ##### Success Response
-
-	{
-		"success": true,
-		"message": "Final order successfully recieved",
-		"status": 200,
-		"data": [{"menuItemId": "" , "quantity": "1"]
-	}
-
+```json
+        {
+            "_id": "60c73afb0b5f5c23d4a61688",
+            "name": "isabelle",
+            "deliveryAddress": "bs7 9se",
+            "email": "isabelle@hotmail.co.uk",
+            "orderItems": [],
+            "isOrderSubmitted": true,
+            "timePlaced": "2021-06-17T08:42:53.925Z",
+            "totalPrice": 0
+         }
+```
 ##### Error Response
-
+```json
 	{
 		"success": false,
 		"message": "The resources requested do not exist at the desired location.",
 		"status": 404
 	}
-
+```
 ### POST: 
 
 #### Creating a new order
@@ -126,7 +130,7 @@ This endpoint allows you to create a new order.
 ##### Data Params
 ```json
         {
-        "name": "Ashley Coles",
+                "name": "Ashley Coles",
 		"firstLineOfAddress": "1 Widcombe Crescent",
 		"postcode": "BA2 6AH",
 		"email": "deliciousFood@food.com"
@@ -375,8 +379,17 @@ This endpoint will send your order to the restaurant and cannot be taken back.
         "success": true,
         "message": "The order has been placed",
         "status": 200,
-  }
-
+        "data": {
+            "_id": "60c73afb0b5f5c23d4a61688",
+            "name": "isabelle",
+            "deliveryAddress": "bs5 9qb",
+            "email": "isabelle_cochrane@hotmail.co.uk",
+            "orderItems": [],
+            "isOrderSubmitted": true,
+            "timePlaced": "2021-06-17T08:42:53.925Z",
+            "totalPrice": 0
+          }
+    }
 ```
 
 ##### Error Responses

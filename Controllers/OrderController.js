@@ -89,7 +89,9 @@ let submitFinalOrder = (req, res) => {
             const totalPrice = await PriceService.calculateTotalPrice(db, finalisedOrder)
             const submittedOrder = await OrderService.submitFinalOrder(db, order, totalPrice)
             if (submittedOrder.modifiedCount === 1) {
+
                 let response = JSONResponseService.generateSuccessResponse()
+                response.data = await OrderService.getOrderDetails(db, order.orderId)
                 response.message = "The order has been placed"
                 return res.json(response)
             }
@@ -109,8 +111,15 @@ let getOrderDetails = (req, res) => {
         const order = {
             orderId: ObjectId(req.params.id)
         }
+        try {
             const orderDetails = await OrderService.getOrderDetails(db, order.orderId)
             return res.json(orderDetails)
+        } catch (e) {
+            let response = JSONResponseService.generateFailureResponse()
+            response.message = "Database request failed"
+            return res.json(response)
+        }
+
     })
 }
 
