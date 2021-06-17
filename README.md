@@ -376,17 +376,17 @@ fetch('http://localhost:3000/orders/editQuantity', {
 ```json
 {
     "success": true,
-    "message": "Quantity updated successfully",
+    "message": "Quantity updated successfully.",
     "status": 200
 }
 ```
 
 ##### Error Response
-If the DB fails to update the dish quantity:
+If dish quantity is equal to ore less than 0, or not an integer (whole number):
 ```json
 {
     "success": false,
-    "message": "Dish quantity was not updated",
+    "message": "The quantity requested is invalid - it must be a positive integer.",
     "status": 400
 }
 ```
@@ -399,13 +399,22 @@ If there is an issue connecting with the database.
     "status": 400
 }
 ```
-	
-If the dish ID is incorrect:
+
+If the dish in not present in the order:
 ```json
 {
     "success": false,
-    "message": "Dish not found - please check menuItemId",
+    "message": "The selected item is not present in this order. Please try again.",
     "status": 404
+}
+```
+
+If the quantity of the selected dish is already equal to the requested quantity:
+```json
+{
+  "success": false,
+  "message": "Quantity not updated - quantity of selected item is already x",
+  "status": 404
 }
 ```
 
