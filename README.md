@@ -353,7 +353,7 @@ This endpoint will send your order to the restaurant and cannot be taken back.
 ##### Data Params
 ```json
 	 {
-           "_id": "60c73afb0b5f5c23d4a61688"
+           "orderId": "60c73afb0b5f5c23d4a61688"
         }
 ```
 
@@ -382,8 +382,8 @@ This endpoint will send your order to the restaurant and cannot be taken back.
         "data": {
             "_id": "60c73afb0b5f5c23d4a61688",
             "name": "isabelle",
-            "deliveryAddress": "bs5 9qb",
-            "email": "isabelle_cochrane@hotmail.co.uk",
+            "deliveryAddress": "bse 93b",
+            "email": "isabelle@hotmail.co.uk",
             "orderItems": [],
             "isOrderSubmitted": true,
             "timePlaced": "2021-06-17T08:42:53.925Z",
