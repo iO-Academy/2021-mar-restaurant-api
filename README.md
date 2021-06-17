@@ -164,12 +164,12 @@ fetch('http://localhost:3000/dishes/individualDishes/:id')
 
 ##### Error Response
 ```json
-
+{
+    "success": false,
+    "message": "The resources requested do not exist at the desired location.",
+    "status": 404
+}
 ```
-
-
-
-
 
 ### Retrieving final order
 `GET /orders/:id`
