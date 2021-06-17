@@ -70,7 +70,7 @@ const addToOrder = (req, res) => {
                 return res.json(response)
             } catch (e) {
                 let response = JSONResponseService.generateFailureResponse()
-                response.message = "Dish not found so cannot add to order"
+                response.message = "Order or menu item not found so cannot add to order"
                 return res.json(response)
             }
         }

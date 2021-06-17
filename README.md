@@ -324,8 +324,8 @@ If the id has no match in the database
 ```json
 {
     "success": false,
-    "message": "Dish not found so cannot add to order",
-    "status": 404
+    "message": "Order or menu item not found so cannot add to order",
+    "status": 400
 }
 ```
 If validation fails
