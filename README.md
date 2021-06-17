@@ -1,3 +1,19 @@
+## Table of Contents
+
+- [Collection structure](#collection-structure)
+- [API Calls](#API-calls)
+   - [GET](#GET)
+        - [Getting items on the menu](#getting-items-on-the-menu)
+        - [Retrieving a single dish](#retrieving-a-single-dish)
+        - [Retrieving final order](#retrieving-final-order)
+   - [POST](#POST)
+        - [Creating a new order](#creating-a-new-order)
+   - [PUT](#PUT)
+        - [Adding items to an order](#adding-items-to-an-order)
+        - [Edit quantities of dishes in orders](#edit-quantities-of-dishes-in-orders)
+        - [Remove an item (in any quantity) from an order](#remove-an-item-in-any-quantity-from-an-order)
+        - [Submit final order](#submit-final-order)
+
 ### Collection Structure
 ##### Collection structure for restaurant.dishes
 | Property      | Value     | Type     |
@@ -31,7 +47,7 @@
 | totalPrice   | Price of all items in orderItems -> updated to reflect total price | int |
 ## API Calls
 ### GET
-#### Getting items on the menu
+### Getting items on the menu
 Returns a JSON string of dishes (option for all dishes, and dishes by type). No authentication required.  
 // return all dishes of all types (dishType)   
 `GET /dishes`  
@@ -68,7 +84,7 @@ fetch('http://localhost:3000/orders/:id')
     "status": 404
   }
 ```
-#### Retrieving a single dish
+###Retrieving a single dish
 `GET /dishes/:id`
 ##### Sample Call
 ```javascript
@@ -103,7 +119,7 @@ fetch('http://localhost:3000/orders/:id')
       "status": 404
    }
 ```
-#### Retrieving final order
+### Retrieving final order
 `GET /orders/:id`
 ##### Sample Call
 
@@ -137,7 +153,7 @@ fetch('http://localhost:3000/orders/:id')
 ```
 ### POST:
 
-#### Creating a new order
+### Creating a new order
 `POST /orders`  
 
 This endpoint allows you to create a new order.
@@ -199,7 +215,7 @@ If the request fails to connect to the database
 }
 ```
 ### PUT
-#### Adding items to an order
+### Adding items to an order
 `PUT /orders/addToOrder`  
 This endpoint allows you to add an item, in any quantity, to an existing order
 
@@ -310,7 +326,6 @@ If there is an issue connecting with the database.
 ```
 	
 If the dish ID is incorrect:
-	
 ```json
 {
     "success": false,
