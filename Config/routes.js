@@ -10,6 +10,7 @@ const routes = (app) => {
     app.put('/orders/addToOrder', OrderController.addToOrder)
     app.put('/orders', OrderController.removeOrderItem)
     app.put('/orders/submitOrder', OrderController.submitFinalOrder)
+    app.put('/orders/cancelOrder', OrderController.cancelOrder)
     app.get('/orders/:id', OrderController.getOrderDetails)
     app.put('/orders/editQuantity', OrderController.editOrderItemQuantity)
 }

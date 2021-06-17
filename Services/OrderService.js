@@ -79,6 +79,15 @@ const removeOrderItem = async (db, item) => {
     return result
 }
 
+const cancelOrder = async (db, orderId) => {
+    const collection = db.collection('orders')
+    const result = await collection.updateOne(
+        {_id: orderId},
+        {$set: {isOrderCancelled: false}}
+    )
+    return result
+}
+
 
 module.exports.createNewOrder = createNewOrder
 module.exports.getOrderDetails = getOrderDetails
@@ -86,4 +95,5 @@ module.exports.removeOrderItem = removeOrderItem
 module.exports.submitFinalOrder = submitFinalOrder
 module.exports.addItemsToOrder = addItemsToOrder
 module.exports.editOrderItemQuantity = editOrderItemQuantity
+module.exports.cancelOrder = cancelOrder
 

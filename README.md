@@ -417,7 +417,7 @@ This endpoint allows you to remove an item entirely from an order.
 
 ```json
 {
-    "_id": "60c73afb0b5f5c23d4a61688",
+    "orderId": "60c73afb0b5f5c23d4a61688",
     "menuItemId": "60c73afb0b5f5c23d4a61689"
 }
 ```
@@ -467,7 +467,7 @@ This endpoint will send your order to the restaurant and cannot be taken back.
 ```
 ##### Sample Call
 ```javascript
-fetch('http://localhost:3000/orders', {
+fetch('http://localhost:3000/orders/submitOrder', {
     "method": PUT,
     "body": JSON.stringify(/* your data goes here */),
     "headers": 
@@ -482,22 +482,28 @@ fetch('http://localhost:3000/orders', {
 ```
 ##### Success Response
 ```json
-   {
-        "success": true,
-        "message": "The order has been placed",
-        "status": 200,
-        "data": {
-            "_id": "60c73afb0b5f5c23d4a61688",
-            "name": "isabelle",
-            "deliveryAddress": "bse 93b",
-            "email": "isabelle@hotmail.co.uk",
-            "orderItems": [],
-            "isOrderSubmitted": true,
-            "timePlaced": "2021-06-17T08:42:53.925Z",
-            "totalPrice": 0,
-            "deliveryTime": "2021-06-17T09:22:53.925Z"
-          }
-    }
+{
+    "success": true,
+    "message": "The order has been placed",
+    "status": 200,
+    "data": {
+              "_id": "60c73afb0b5f5c23d4a61688",
+              "name": "jenny",
+              "deliveryAddress": "bs5 9qb",
+              "email": "isabelle_cochrane@hotmail.co.uk",
+              "isOrderSubmitted": true,
+              "timePlaced": "2021-06-17T16:23:44.600Z",
+              "orderItems": [
+                            {
+                             "menuItemId": "60c73a880b5f5c23d4a61687", 
+                              "quantity": 4
+                            }
+                            ],
+    "totalPrice": 11.96,
+    "deliveryTime": "2021-06-17T16:23:44.600Z",
+    "isOrderCancelled": false
+  }
+}
 ```
 ##### Error Responses
 If the order has already been submitted

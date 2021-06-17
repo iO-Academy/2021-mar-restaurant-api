@@ -210,6 +210,13 @@ let removeOrderItem = (req, res) => {
     })
 }
 
+let cancelOrder = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        const orderId = ObjectId(req.body.orderId)
+        const cancelledOrder = await OrderService.cancelOrder(db, orderId)
+        return res.send('nate sucks')
+    })
+    }
 
 module.exports.editOrderItemQuantity = editOrderItemQuantity
 module.exports.createNewOrder = createNewOrder
@@ -218,3 +225,4 @@ module.exports.removeOrderItem = removeOrderItem
 module.exports.submitFinalOrder = submitFinalOrder
 module.exports.addToOrder = addToOrder
 module.exports.getDishPriceById = getDishPriceById
+module.exports.cancelOrder = cancelOrder
