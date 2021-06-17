@@ -3,22 +3,7 @@ const DishesService = require('../Services/DishesService')
 
 let createNewOrder = async (db, order) => {
     const collection = db.collection('orders')
-    const result = await collection.insertOne(order, {totalCost: 0})
-    return result
-}
-
-let submitFinalOrder = async  (db, order) => {
-    const collection = db.collection('orders')
-    const timePlaced = new Date()
-    const result = await collection.updateOne(
-        { _id: order.orderId},
-        {$set: {isOrderSubmitted: true, timePlaced: timePlaced, totalPrice: 0}})
-    return result
-}
-
-let getFinalOrderDetails = async (db, order) => {
-    const collection = db.collection('orders')
-    const result = await collection.findOne({_id: order.orderId})
+    const result = await collection.insertOne(order)
     return result
 }
 
@@ -55,7 +40,14 @@ const addItemsToOrder = async (db, itemsToOrder) => {
     return updateSuccess.modifiedCount
 }
 
+let removeOrderItem = async (db, item) => {
+    const collection = db.collection('orders')
+    const result = await collection.updateOne(
+        {_id: item.orderId},
+        {$pull: {orderItems: { menuItemId: item.menuItemId }}})
+    return result
+}
+
 module.exports.createNewOrder = createNewOrder
-module.exports.submitFinalOrder = submitFinalOrder
-module.exports.getFinalOrderDetails = getFinalOrderDetails
 module.exports.addItemsToOrder = addItemsToOrder
+module.exports.removeOrderItem = removeOrderItem

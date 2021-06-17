@@ -121,6 +121,7 @@ This endpoint allows you to create a new order.
 		"firstLineOfAddress": "1 Widcombe Crescent",
 		"postcode": "BA2 6AH",
 		"email": "deliciousFood@food.com"
+
         }
 ```
 
@@ -291,19 +292,17 @@ If the dish ID is incorrect:
 
 `PUT /orders/removeDish`
 
-This endpoint allows you to remove an item entirely from an order regardless of quantity.
+This endpoint allows you to remove an item entirely from an order.
 
 ##### Data Params
-```json
-	  {
-          "orderId": "60c73afb0b5f5c23d4a61688",
-          "menuItemId": "60c73a660b5f5c23d4a61681"
-      }
-   ```
+
+	 {
+           "_id": "60c73afb0b5f5c23d4a61688"
+           "orderItems": [{"menuItemId": "60c73afb0b5f5c23d4a61689"}]
+        }
 
 ##### Sample Call
 
-```JavaScript
 	fetch('http://localhost:3000/orders', {
         	"method": PUT,
                 "body": JSON.stringify(/* your data goes here */),
@@ -316,35 +315,21 @@ This endpoint allows you to remove an item entirely from an order regardless of 
                     		//do stuff with your data
                 	 })
        		 })
-  ```
 
 ##### Success Response
-
-```JSON
 	{
 		"success": true,
-		"message": "All dishes of this quantity successfully deleted from order",
+		"message": "Dish successfully deleted from order",
 		"status": 200,
 	}
- ```
 
-##### Error Responses
+##### Error Response
 	
-```JSON
 	{
 		"success": false,
 		"message": "Item not found so cannot be deleted from order",
 		"status": 404
 	}
- ```
-
-```JSON
-    {
-        "success": false,
-        "message": "Database request failed",
-        "status": 404
-    } 
-```
 
 ### Submit final order
 
