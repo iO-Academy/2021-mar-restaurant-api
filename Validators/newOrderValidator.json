@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "required": ["name", "firstLineOfAddress", "postcode", "email"],
+  "required": ["name", "firstLineOfAddress", "postcode", "email", "totalCost", "isOrderSubmitted"],
   "allOf": [{
     "properties": {
       "name": {"type": "string", "pattern": "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"},

@@ -25,7 +25,7 @@ const createNewOrder = (req, res) => {
             postcode: req.body.postcode,
             email: req.body.email,
             totalCost: 0,
-            isOrderSubmitted: false
+            isOrderSubmitted: false,
         }
 
         const newOrderValidate = ajv.compile(orderValidate)
