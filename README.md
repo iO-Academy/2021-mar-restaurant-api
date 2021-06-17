@@ -199,8 +199,8 @@ If the id is invalid
 ```json
 {
    "_id": "60c73afb0b5f5c23d4a61688",
-    "name": "isabelle",
-    "deliveryAddress": "bs7 9se",
+    "name": "Isabelle",
+    "deliveryAddress": "BS7 9SE",
     "email": "isabelle@hotmail.co.uk",
     "orderItems": [],
     "isOrderSubmitted": true,
