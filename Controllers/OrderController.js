@@ -9,7 +9,7 @@ const orderValidate = require('../Validators/newOrderValidator.json')
 const addToOrderValidate = require('../Validators/addItemsToOrderValidator.json')
 const idRemoveValidator = require('../Validators/removeOrderItem.json')
 const submitOrderValidate = require('../Validators/submitFinalOrder.json')
-
+const editOrderItemQuantityValidate = require('../Validators/editOrderItemQuantityValidator.json')
 
 const Ajv = require('ajv')
 const addFormats = require('ajv-formats')
@@ -26,6 +26,7 @@ const createNewOrder = (req, res) => {
             email: req.body.email,
             totalCost: 0,
             isOrderSubmitted: false,
+            orderItems: []
         }
 
         const newOrderValidate = ajv.compile(orderValidate)
@@ -79,6 +80,7 @@ const addToOrder = (req, res) => {
     })
 }
 
+
 let getDishPriceById = (req, res) => {
     DbService.connectToDb(async (db) => {
         const dishId = ObjectId(req.params.id)
@@ -96,7 +98,7 @@ let submitFinalOrder = (req, res) => {
         const compile = ajv.compile(submitOrderValidate)
         const valid = compile(order)
 
-        if(valid) {
+        if (valid) {
             try {
                 const finalisedOrder = await OrderService.getOrderDetails(db, order.orderId)
                 const totalPrice = await PriceService.calculateTotalPrice(db, finalisedOrder)
@@ -115,14 +117,47 @@ let submitFinalOrder = (req, res) => {
             } catch (e) {
                 let response = JSONResponseService.generateFailureResponse()
                 response.message = "Database request failed"
+            }
+        }
+    })
+}
+
+
+const editOrderItemQuantity = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        const itemsToAmend = {
+            orderId: req.body.orderId,
+            menuItemId: req.body.menuItemId,
+            quantity: req.body.quantity
+        }
+
+        const compile = ajv.compile(editOrderItemQuantityValidate)
+        const valid = compile(itemsToAmend)
+
+        if (valid) {
+            try {
+                const editSuccess = await OrderService.editOrderItemQuantity(db, itemsToAmend)
+                console.log(editSuccess)
+                if (editSuccess) {
+                    let response = JSONResponseService.generateSuccessResponse()
+                    response.message = "Quantity updated successfully"
+                    return res.json(response)
+                }
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "Dish not found - please check menuItemId"
+                return res.json(response)
+            } catch (e) {
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "Something went wrong with the database - please try again later"
                 return res.json(response)
             }
         }
         let response = JSONResponseService.generateFailureResponse()
-        response.message = "Please ensure your orderId is correct."
+        response.message = "Invalid data types provided"
         return res.json(response)
     })
 }
+
 
 let getOrderDetails = (req, res) => {
     DbService.connectToDb(async (db) => {
@@ -177,10 +212,10 @@ let removeOrderItem = (req, res) => {
 }
 
 
+module.exports.editOrderItemQuantity = editOrderItemQuantity
 module.exports.createNewOrder = createNewOrder
 module.exports.getOrderDetails = getOrderDetails
 module.exports.removeOrderItem = removeOrderItem
 module.exports.submitFinalOrder = submitFinalOrder
 module.exports.addToOrder = addToOrder
 module.exports.getDishPriceById = getDishPriceById
-

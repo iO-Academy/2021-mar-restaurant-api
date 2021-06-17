@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "required": ["name", "firstLineOfAddress", "postcode", "email", "totalCost", "isOrderSubmitted"],
+  "required": ["name", "firstLineOfAddress", "postcode", "email", "totalCost", "isOrderSubmitted", "orderItems"],
   "allOf": [{
     "properties": {
       "name": {"type": "string", "pattern": "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"},
@@ -8,7 +8,8 @@
       "postcode": {"type": "string", "pattern": "^[A-Z]{1,2}[0-9]{1,2}[A-Z]?(\\s*[0-9][A-Z]{1,2})?$"},
       "email": {"type": "string", "format": "email"},
       "totalCost": {"type":  "number"},
-      "isOrderSubmitted": {"type":  "boolean"}
+      "isOrderSubmitted": {"type":  "boolean"},
+      "orderItems": {"type": "array"}
     },
     "additionalProperties": false
   }]
