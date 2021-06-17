@@ -18,10 +18,19 @@
 | name   | Name of customer | String |
 | deliveryAddress   | Address of customer where order needs to be delivered | String |
 | email   | Customers email | String |
-| isOrderSubmitted | Has the customer submitted final order | Bool |
-| timePlaced   | Time order was submitted by customer | Date |
+
+
+#####Collection field added when items are added to an order
+
+| Property      | Value     | Type     |
+| :------------- | :----------: | :----------: |
 | orderItems   | Holds object of each menu item id and quantity that customer has ordered | Array |
 
+#####Collection fields added when order is reviewed for submission
+
+| isOrderSubmitted | Has the customer submitted final order | Bool |
+| timePlaced   | Time order was submitted by customer | Date |
+| totalPrice   | Price of all items in orderItems | int |
 
 ## API Calls
 
