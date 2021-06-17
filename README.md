@@ -61,7 +61,7 @@ Returns a JSON string of dishes (option for all dishes, and dishes by type). No 
 `GET /dishes/refreshments`  
 ##### Sample Call
 ```javascript
-fetch('http://localhost:3000/orders/:id')
+fetch('http://localhost:3000/dishes/:course')
     .then (res => res.json())
     .then ((data) => {
         //do stuff with your data
@@ -76,15 +76,26 @@ fetch('http://localhost:3000/orders/:id')
     "data": [{dish}, {dish}, {dish}]
 }
 ```
-##### Error Response
+##### Error Responses
+
+If there is an issue connecting with the database.
 ```json
-  {
+{
     "success": false,
     "message": "The resources requested do not exist at the desired location.",
     "status": 404
-  }
+}
 ```
-###Retrieving a single dish
+
+If you try to find dishes for a course that does not exist.
+```json
+{
+  "success": false,
+  "message": "You must provide a valid category.",
+  "status": 400
+}
+```
+### Retrieving a single dish
 `GET /dishes/:id`
 ##### Sample Call
 ```javascript
@@ -119,10 +130,51 @@ fetch('http://localhost:3000/orders/:id')
       "status": 404
    }
 ```
+
+### Retrieve individual dish
+`GET /dishes/individualDishes/:id`
+
+This endpoint allows you to retrieve information about a specific dish.
+
+### Sample Call
+```javascript
+fetch('http://localhost:3000/dishes/individualDishes/:id')
+      .then (res => res.json())
+      .then ((data) => {
+         //do stuff with your data
+    })
+```
+##### Success Response
+```json
+{ 
+    "success": true,
+    "message": "Requested dish retrieved successfully.",
+    "status": 200,
+    "data": {
+        "_id": "60c739e10b5f5c23d4a61684",
+        "name": "burger",
+        "description": "beef and cheese ",
+        "price": {
+            "$numberDecimal": "12.99"
+        },
+        "dishType": "starters"
+    }
+}
+```
+
+##### Error Response
+```json
+
+```
+
+
+
+
+
 ### Retrieving final order
 `GET /orders/:id`
-##### Sample Call
 
+##### Sample Call
 ```javascript
    fetch('http://localhost:3000/orders/:id')
       .then (res => res.json())
@@ -254,7 +306,8 @@ fetch('http://localhost:3000/orders/addToOrder', {
     "status": 200
 }
 ```
-##### Error Response
+##### Error Responses
+If the id has no match in the database
 ```json
 {
     "success": false,
@@ -262,6 +315,15 @@ fetch('http://localhost:3000/orders/addToOrder', {
     "status": 404
 }
 ```
+If validation fails
+```json
+{
+    "success": false,
+    "message": "Invalid data types provided",
+    "status": 400
+}
+```
+
 ### Edit quantities of dishes in orders
 `PUT /orders/editQuantity`
 ##### Data Params
