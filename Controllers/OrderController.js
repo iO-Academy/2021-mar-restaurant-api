@@ -129,15 +129,21 @@ let getOrderDetails = (req, res) => {
         const order = {
             orderId: ObjectId(req.params.id)
         }
-        try {
-            const orderDetails = await OrderService.getOrderDetails(db, order.orderId)
-            return res.json(orderDetails)
-        } catch (e) {
+        const compile = ajv.compile(submitOrderValidate)
+        const valid = compile(order)
+        if (valid) {
+            try {
+                const orderDetails = await OrderService.getOrderDetails(db, order.orderId)
+                return res.json(orderDetails)
+            } catch (e) {
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "Order number not valid"
+                return res.json(response)
+            }
             let response = JSONResponseService.generateFailureResponse()
             response.message = "Database request failed"
             return res.json(response)
         }
-
     })
 }
 
