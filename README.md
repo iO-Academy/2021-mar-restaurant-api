@@ -1,7 +1,21 @@
+## Table of Contents
+
+- [Collection structure](#collection-structure)
+- [API Calls](#API-calls)
+   - [GET](#GET)
+        - [Getting items on the menu](#getting-items-on-the-menu)
+        - [Retrieving a single dish](#retrieving-a-single-dish)
+        - [Retrieving final order](#retrieving-final-order)
+   - [POST](#POST)
+        - [Creating a new order](#creating-a-new-order)
+   - [PUT](#PUT)
+        - [Adding items to an order](#adding-items-to-an-order)
+        - [Edit quantities of dishes in orders](#edit-quantities-of-dishes-in-orders)
+        - [Remove an item (in any quantity) from an order](#remove-an-item-in-any-quantity-from-an-order)
+        - [Submit final order](#submit-final-order)
+
 ### Collection Structure
 ##### Collection structure for restaurant.dishes
-
-
 | Property      | Value     | Type     |
 | :------------- | :----------: | :----------: |
 | _id |  Unique menu item id, auto-generated  | String |
@@ -9,53 +23,51 @@
 | description   | Description of the dish | String |
 | price   | Amount of money the dish costs | Decimal128 |
 | dishType | The course type of the dish (starters, mains, desserts, refreshments) | String |
-
-##### Collection structure for orders
-
+##### Collection structure for restaurant.orders
 | Property      | Value     | Type     |
 | :------------- | :----------: | :----------: |
 | _id |  Unique order id, auto-generated  | String |
 | name   | Name of customer | String |
 | deliveryAddress   | Address of customer where order needs to be delivered | String |
 | email   | Customers email | String |
-| isOrderSubmitted | Has the customer submitted final order | Bool |
-| timePlaced   | Time order was submitted by customer | Date |
+##### Fields added to restaurant.orders documents when items are added to an order
+| Property      | Value     | Type     |
+| :------------- | :----------: | :----------: |
 | orderItems   | Holds object of each menu item id and quantity that customer has ordered | Array |
-
-
+| isOrderSubmitted | Has the customer submitted final order (set to false initially) | Bool |
+| totalPrice   | Price of all items in orderItems (set to 0 initially) | int |
+##### Fields added to restaurant.orders documents when order is submitted
+| Property      | Value     | Type     |
+| :------------- | :----------: | :----------: |
+| timePlaced   | Time order was submitted by customer | Date |
+| deliveryTime   | Time of anticipated delivery | Date |
+##### Fields updated in restaurant.orders documents order is submitted
+| Property      | Value     | Type     |
+| :------------- | :----------: | :----------: |
+| isOrderSubmitted | Has the customer submitted final order -> updated to true | Bool |
+| totalPrice   | Price of all items in orderItems -> updated to reflect total price | int |
 ## API Calls
-
 ### GET
-
-#### Getting items on the menu
-
-Returns a JSON string of dishes (option for all dishes, and dishes by type). No authentication required.
-
-// return all dishes of all types (dishType)
-`GET /dishes`
-
-// return all starters
-`GET /dishes/starters`
-
-// return all mains
-`GET /dishes/mains`
-
-// return all desserts
-`GET /dishes/desserts`
-
-// return all refreshments
-`GET /dishes/refreshments`
-
+### Getting items on the menu
+Returns a JSON string of dishes (option for all dishes, and dishes by type). No authentication required.  
+// return all dishes of all types (dishType)   
+`GET /dishes`  
+// return all starters  
+`GET /dishes/starters`  
+// return all mains  
+`GET /dishes/mains`  
+// return all desserts  
+`GET /dishes/desserts`  
+// return all refreshments  
+`GET /dishes/refreshments`  
 ##### Sample Call
 ```javascript
-fetch('http://localhost:3000/dishes')
+fetch('http://localhost:3000/dishes/:course')
     .then (res => res.json())
     .then ((data) => {
-    //do stuff with your data
+        //do stuff with your data
     })
-})
 ```
-
 ##### Success Response
 ```json
 {
@@ -65,8 +77,9 @@ fetch('http://localhost:3000/dishes')
     "data": [{dish}, {dish}, {dish}]
 }
 ```
+##### Error Responses
 
-##### Error Response
+If there is an issue connecting with the database.
 ```json
 {
     "success": false,
@@ -75,137 +88,206 @@ fetch('http://localhost:3000/dishes')
 }
 ```
 
-#### Retrieving final order
-
-`GET /orders/:id`
-
+If you try to find dishes for a course that does not exist.
+```json
+{
+  "success": false,
+  "message": "You must provide a valid category.",
+  "status": 400
+}
+```
+### Retrieving a single dish
+`GET /dishes/:id`
 ##### Sample Call
-
 ```javascript
 fetch('http://localhost:3000/orders/:id')
-    .then (res => res.json())
-    .then ((data) => {
-        //do stuff with your data
-    })
-})
+      .then (res => res.json())
+      .then ((data) => {
+         //do stuff with your data
+      })
 ```
-
 ##### Success Response
-
 ```json
 {
     "success": true,
-    "message": "Final order successfully recieved",
+    "message": "Requested dish retrieved successfully.",
     "status": 200,
-    "data":
-    [
-      {
-        "menuItemId": "",
-        "quantity": "1"
-      }
-    ]
+    "data": {
+        "_id": "60c73a660b5f5c23d4a61686",
+        "name": "tarte tatin",
+        "description": "apple with vanilla icecream",
+        "price": {
+            "$numberDecimal": "7.99"
+        },
+        "dishType": "desserts"
+    }
 }
 ```
-
 ##### Error Response
-
 ```json
-{
-    "success": false,
-    "message": "The resources requested do not exist at the desired location.",
-    "status": 404
-}
+   {
+      "success": false,
+      "message": "The resources requested do not exist at the desired location.",
+      "status": 404
+   }
 ```
 
-### POST: 
+### Retrieve individual dish
+`GET /dishes/individualDishes/:id`
 
-#### Creating a new order
+This endpoint allows you to retrieve information about a specific dish.
 
-`POST /orders`
-
-This endpoint allows you to create a new order.
-
-
-##### Data Params
-```json
-{
-    "name": "Ashley Coles",
-    "firstLineOfAddress": "1 Widcombe Crescent",
-    "postcode": "BA2 6AH",
-    "email": "deliciousFood@food.com"
-}
-```
-
-##### Sample Call
-
+### Sample Call
 ```javascript
-fetch('http://localhost:3000/orders', {
-        "method": "POST",
-        "body": JSON.stringify(/* your data goes here */),
-        "headers": {
-            "content-type": "application/JSON"
-        }
-        .then (res => res.json())
-        .then ((data) => {
-            //do stuff with your data
-        })
-})
-```    
-
+fetch('http://localhost:3000/dishes/individualDishes/:id')
+      .then (res => res.json())
+      .then ((data) => {
+         //do stuff with your data
+    })
+```
 ##### Success Response
-    
 ```json
-{
+{ 
     "success": true,
-    "message": "Order created",
+    "message": "Requested dish retrieved successfully.",
     "status": 200,
-    "data": 
-        [
-            {
-                "_id": "60c73afb0b5f5c23d4a61688",
-                "name": "Ashley Coles",
-                "firstLineOfAddress": "Melksham",
-                "postcode": "BA2 6AH",
-                "email": "deliciousFood@food.com"
-            }
-        ]
+    "data": {
+        "_id": "60c739e10b5f5c23d4a61684",
+        "name": "burger",
+        "description": "beef and cheese ",
+        "price": {
+            "$numberDecimal": "12.99"
+        },
+        "dishType": "starters"
+    }
 }
 ```
 
 ##### Error Responses
 
-If the validator fails
+If there is an issue interacting with the database
 
 ```json
 {
     "success": false,
-    "message": "Validator failed",
+    "message": "The resources requested do not exist at the desired location.",
     "status": 404
 }
 ```
 
-If the request fails to connect to the database
-
-
+If the id is invalid
 ```json
 {
     "success": false,
-    "message": "Database request failed",
-    "status": 404
-}		
+    "message": "Your menu item does not exist.",
+    "status": 400
+}
 ```
 
-### PUT
+### Retrieving final order
+`GET /orders/:id`
 
-#### Adding items to an order
-
-// add an item, with any quantity, to an existing order `PUT /orders/addToOrder`
-
-##### Data Params
-	
+##### Sample Call
+```javascript
+   fetch('http://localhost:3000/orders/:id')
+      .then (res => res.json())
+      .then ((data) => {
+         //do stuff with your data
+    })
+```
+##### Success Response
 ```json
 {
-    "orderId": "60c73afb0b5f5c23d4a61688"
+   "_id": "60c73afb0b5f5c23d4a61688",
+    "name": "isabelle",
+    "deliveryAddress": "bs7 9se",
+    "email": "isabelle@hotmail.co.uk",
+    "orderItems": [],
+    "isOrderSubmitted": true,
+    "timePlaced": "2021-06-17T08:42:53.925Z",
+    "totalPrice": 0
+}
+```
+##### Error Response
+```json
+   {
+      "success": false,
+      "message": "The resources requested do not exist at the desired location.",
+      "status": 404
+   }
+```
+### POST:
+
+### Creating a new order
+`POST /orders`  
+
+This endpoint allows you to create a new order.
+##### Data Params
+```json
+  {
+    "name": "Ashley Coles",
+    "firstLineOfAddress": "1 Widcombe Crescent", 
+    "postcode": "BA2 6AH",
+    "email": "deliciousFood@food.com"
+  }
+
+```
+##### Sample Call
+```javascript
+fetch('http://localhost:3000/orders', {
+    "method": POST,
+    "body": JSON.stringify(/* your data goes here */),
+    "headers": 
+        {
+            "content-type": "application/JSON"
+        }
+            .then (res => res.json())
+            .then ((data) => {
+            //do stuff with your data
+            })
+})
+```    
+##### Success Response
+```json
+{
+  "success": true,
+  "message": "Order created",
+  "status": 200,
+  "data": [{
+      "_id": "60c73afb0b5f5c23d4a61688",
+      "name": "Ashley Coles",
+      "firstLineOfAddress": "Melksham",
+      "postcode": "BA2 6AH",
+      "email": "deliciousFood@food.com"
+    }]
+}
+```
+##### Error Responses
+If the validator fails
+```json
+{
+  "success": false,
+  "message": "Validator failed",
+  "status": 404
+}
+```
+If the request fails to connect to the database
+```json
+{
+  "success": false,
+  "message": "Database request failed",
+  "status": 404
+}
+```
+### PUT
+### Adding items to an order
+`PUT /orders/addToOrder`  
+This endpoint allows you to add an item, in any quantity, to an existing order
+
+##### Data Params
+```json
+{
+    "orderId": "60c73afb0b5f5c23d4a61688",
     "orderItems": 
         [
           {
@@ -215,9 +297,7 @@ If the request fails to connect to the database
         ]
 }
 ```
-	
 ##### Sample Call
-	
 ```javascript
 fetch('http://localhost:3000/orders/addToOrder', {
     "method": "PUT",
@@ -232,7 +312,6 @@ fetch('http://localhost:3000/orders/addToOrder', {
 })
 ```
 ##### Success Response
-
 ```json
 {
     "success": true,
@@ -240,8 +319,8 @@ fetch('http://localhost:3000/orders/addToOrder', {
     "status": 200
 }
 ```
-##### Error Response
-
+##### Error Responses
+If the id has no match in the database
 ```json
 {
     "success": false,
@@ -249,21 +328,18 @@ fetch('http://localhost:3000/orders/addToOrder', {
     "status": 404
 }
 ```
-
+If validation fails
+```json
+{
+    "success": false,
+    "message": "Invalid data types provided",
+    "status": 400
+}
+```
 
 ### Edit quantities of dishes in orders
-
 `PUT /orders/editQuantity`
-
 ##### Data Params
-
-`orderId:` needs to be a string that represents a MongoDB ObjectID
-
-`menuItemId:` needs to be a string that represents a MongoDB ObjectID
-
-`quantity:` this is the number of items that have been selected
-<br>(NOTE: this will replace the current quantity or any items with the same ID)
-
 ```json
 {
   "orderId": "60c73afb0b5f5c23d4a61688",
@@ -271,6 +347,13 @@ fetch('http://localhost:3000/orders/addToOrder', {
   "quantity": 7
 }
 ```
+`orderId:` needs to be a string that represents a MongoDB ObjectID
+
+`menuItemId:` needs to be a string that represents a MongoDB ObjectID
+
+`quantity:` this is the number of items that have been selected 
+
+(NOTE: this will replace the current quantity or any items with the same ID)
 
 ##### Sample Call
 
@@ -299,9 +382,16 @@ fetch('http://localhost:3000/orders/editQuantity', {
 ```
 
 ##### Error Response
-	
 If the DB fails to update the dish quantity:
-	
+```json
+{
+    "success": false,
+    "message": "Dish quantity was not updated",
+    "status": 400
+}
+```
+
+If there is an issue connecting with the database. 
 ```json
 {
     "success": false,
@@ -311,7 +401,6 @@ If the DB fails to update the dish quantity:
 ```
 	
 If the dish ID is incorrect:
-	
 ```json
 {
     "success": false,
@@ -320,121 +409,110 @@ If the dish ID is incorrect:
 }
 ```
 
-
-#### Removing an item (in any quantity) from an order
-
-`PUT /orders/removeDish`
+### Remove an item (in any quantity) from an order
+`PUT /orders/removeDish` 
 
 This endpoint allows you to remove an item entirely from an order.
-
 ##### Data Params
 
 ```json
 {
-   "_id": "60c73afb0b5f5c23d4a61688"
-   "orderItems": [
-     {
-       "menuItemId": "60c73afb0b5f5c23d4a61689"
-     }
-   ]
+    "_id": "60c73afb0b5f5c23d4a61688",
+    "menuItemId": "60c73afb0b5f5c23d4a61689"
 }
 ```
 
 ##### Sample Call
-
 ```javascript
-fetch('http://localhost:3000/orders/removeDish', {
-    "method": PUT,
+fetch('http://localhost:3000/orders/editQuantity', {
+    "method": "PUT",
     "body": JSON.stringify(/* your data goes here */),
     "headers": {  
         "content-type": "application/JSON"
     }
     .then (res => res.json())
     .then ((data) => {
-        //do stuff with your data
+      //do stuff with your data
     })
- })
- ```
-
+})
+```
+    
 ##### Success Response
 ```json
 {
-    "success": true,
-    "message": "Dish successfully deleted from order",
-    "status": 200,
+"success": true,
+"message": "Dish successfully deleted from order",
+"status": 200
 }
 ```
-
+        
 ##### Error Response
-	
 ```json
 {
-    "success": false,
-    "message": "Item not found so cannot be deleted from order",
-    "status": 404
+"success": false,
+"message": "Item not found so cannot be deleted from order",
+"status": 404
 }
 ```
 
 ### Submit final order
+`PUT /orders/submitOrder`  
 
-`PUT /orders/submitOrder`
-
-This endpoint will send your order to the restaurant and cannot be taken back. 
-
+This endpoint will send your order to the restaurant and cannot be taken back.
 ##### Data Params
-
 ```json
 {
-   "_id": "60c73afb0b5f5c23d4a61688"
+    "orderId": "60c73afb0b5f5c23d4a61688"
 }
 ```
-
-
 ##### Sample Call
-
 ```javascript
 fetch('http://localhost:3000/orders', {
     "method": PUT,
     "body": JSON.stringify(/* your data goes here */),
-    "headers": {  
-        "content-type": "application/JSON"
-    }
-    .then (res => res.json())
-    .then ((data) => {
-        //do stuff with your data
-    })
+    "headers": 
+        {  
+            "content-type": "application/JSON"
+        }
+            .then (res => res.json())
+            .then ((data) => {
+                //do stuff with your data
+            })
 })
 ```
-
 ##### Success Response
 ```json
-{
-    "success": true,
-    "message": "Order submitted",
-    "status": 200,
-    "data": [
-                {
-                    "_id": "60c73afb0b5f5c23d4a61688",
-                    "name": "Ashley Coles",
-                    "deliveryAddress": "BA2 6AH",
-                    "email": "deliciousFood@food.com",
-                    "isOrderSubmitted": true,
-                    "timePlaced": "2000-01-01T00:00:00.000+00:00"
-                    "orderItems": [{},{}]
-                }
-            ],
-    "deliveryTime": "2000-01-01T00:00:00.000+00:00"
-}
+   {
+        "success": true,
+        "message": "The order has been placed",
+        "status": 200,
+        "data": {
+            "_id": "60c73afb0b5f5c23d4a61688",
+            "name": "isabelle",
+            "deliveryAddress": "bse 93b",
+            "email": "isabelle@hotmail.co.uk",
+            "orderItems": [],
+            "isOrderSubmitted": true,
+            "timePlaced": "2021-06-17T08:42:53.925Z",
+            "totalPrice": 0,
+            "deliveryTime": "2021-06-17T09:22:53.925Z"
+          }
+    }
 ```
-
-*this success response may change 
-
-##### Error Response
-
+##### Error Responses
+If the order has already been submitted
 ```json
-{
-    "success": false,
-    "message": "The resource/s requested does not exist at the desired location.",
-    "status": 404
-}
+   {
+      "success": false,
+      "message": "Order has already been submitted",
+      "status": 404
+   }
+```
+If there is an issue connecting to the database
+```json
+   {
+      "success": false,
+      "message": "An error has occurred",
+      "status": 404
+   }
 ```

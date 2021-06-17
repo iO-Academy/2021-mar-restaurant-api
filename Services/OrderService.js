@@ -1,9 +1,32 @@
 const ObjectId = require('mongodb').ObjectId
 const DishesService = require('../Services/DishesService')
 
-let createNewOrder = async (db, order) => {
+const createNewOrder = async (db, order) => {
     const collection = db.collection('orders')
     const result = await collection.insertOne(order)
+    return result
+}
+
+const getDeliveryTime = (date) => {
+    const deliveryTime = Math.floor(Math.random() * (45 - 25) + 25)
+    date.setMinutes(date.getMinutes() + deliveryTime)
+    return date
+}
+
+const submitFinalOrder = async  (db, order, totalPrice) => {
+    const collection = db.collection('orders')
+    const timePlaced = new Date()
+    const deliveryTime = getDeliveryTime(timePlaced)
+    const result = await collection.updateOne(
+        { _id: order.orderId},
+        {$set: {isOrderSubmitted: true, timePlaced: timePlaced, totalPrice: totalPrice, deliveryTime: deliveryTime}})
+    return result
+}
+
+
+const getOrderDetails = async (db, orderId) => {
+    const collection = db.collection('orders')
+    const result = await collection.findOne({_id: orderId})
     return result
 }
 
@@ -15,11 +38,9 @@ const getOrder = async (db, orderId) => {
 
 const updateOrderItems = async (db, orderId, newOrderItems) => {
     const collection = db.collection('orders')
-
     const query = { _id: ObjectId(orderId) }
     const update = { $set: { orderItems: newOrderItems } }
     const result = await collection.updateOne(query, update)
-
     return result.modifiedCount
 }
 
@@ -50,7 +71,7 @@ const editOrderItemQuantity = async (db, request) => {
     return updateSuccess
 }
 
-let removeOrderItem = async (db, item) => {
+const removeOrderItem = async (db, item) => {
     const collection = db.collection('orders')
     const result = await collection.updateOne(
         {_id: item.orderId},
@@ -58,7 +79,11 @@ let removeOrderItem = async (db, item) => {
     return result
 }
 
+
 module.exports.createNewOrder = createNewOrder
+module.exports.getOrderDetails = getOrderDetails
+module.exports.removeOrderItem = removeOrderItem
+module.exports.submitFinalOrder = submitFinalOrder
 module.exports.addItemsToOrder = addItemsToOrder
 module.exports.editOrderItemQuantity = editOrderItemQuantity
-module.exports.removeOrderItem = removeOrderItem
+
