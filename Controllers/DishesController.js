@@ -59,7 +59,7 @@ const getOneDish = (req, res) => {
             } catch (e) {
                 let response = JSONResponseService.generateFailureResponse()
                 response.message = "The resources requested do not exist at the desired location."
-                res.json(response)
+                return res.json(response)
             }
         })
 }

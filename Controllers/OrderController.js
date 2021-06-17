@@ -102,7 +102,6 @@ let submitFinalOrder = (req, res) => {
             try {
                 const finalisedOrder = await OrderService.getOrderDetails(db, order.orderId)
                 const totalPrice = await PriceService.calculateTotalPrice(db, finalisedOrder)
-                console.log(totalPrice)
                 let isSubmitted = finalisedOrder.isOrderSubmitted
                 if (isSubmitted !== true) {
                     await OrderService.submitFinalOrder(db, order, totalPrice)

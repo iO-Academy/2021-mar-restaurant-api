@@ -1,7 +1,7 @@
 const ObjectId = require('mongodb').ObjectId
 const DishesService = require('../Services/DishesService')
 
-let createNewOrder = async (db, order) => {
+const createNewOrder = async (db, order) => {
     const collection = db.collection('orders')
     const result = await collection.insertOne(order)
     return result
@@ -13,7 +13,7 @@ const getDeliveryTime = (date) => {
     return date
 }
 
-let submitFinalOrder = async  (db, order, totalPrice) => {
+const submitFinalOrder = async  (db, order, totalPrice) => {
     const collection = db.collection('orders')
     const timePlaced = new Date()
     const deliveryTime = getDeliveryTime(timePlaced)
@@ -24,7 +24,7 @@ let submitFinalOrder = async  (db, order, totalPrice) => {
 }
 
 
-let getOrderDetails = async (db, orderId) => {
+const getOrderDetails = async (db, orderId) => {
     const collection = db.collection('orders')
     const result = await collection.findOne({_id: orderId})
     return result
@@ -71,7 +71,7 @@ const editOrderItemQuantity = async (db, request) => {
     return updateSuccess
 }
 
-let removeOrderItem = async (db, item) => {
+const removeOrderItem = async (db, item) => {
     const collection = db.collection('orders')
     const result = await collection.updateOne(
         {_id: item.orderId},

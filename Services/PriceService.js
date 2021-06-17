@@ -6,7 +6,6 @@ const calculateTotalPrice = async (db, finalisedOrder) => {
         for (const orderItem of finalisedOrder.orderItems) {
             const dishId = ObjectId(orderItem.menuItemId)
             const dishPrice = await DishesService.getDishPriceById(db, dishId)
-            console.log(dishPrice)
             const totalItemPrice = ((dishPrice * 100 * orderItem.quantity) / 100)
             totalPrice += totalItemPrice
         }
