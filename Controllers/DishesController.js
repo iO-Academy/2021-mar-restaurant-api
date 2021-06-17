@@ -47,8 +47,24 @@ const getAllDishesOfType = (req, res) => {
     })
 }
 
-
+const getOneDish = (req, res) => {
+    DbService.connectToDb(async (db) => {
+        const dishId = ObjectId(req.params.id)
+        try {
+            const dish = await DishesService.getOneDish(db, dishId)
+            let response = JSONResponseService.generateSuccessResponse()
+            response.message = "Requested dish retrieved successfully."
+            response.data = dish
+            res.json(response)
+            } catch (e) {
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "The resources requested do not exist at the desired location."
+                res.json(response)
+            }
+        })
+}
 
 module.exports.getAllDishes = getAllDishes
 module.exports.getAllDishesOfType = getAllDishesOfType
+module.exports.getOneDish = getOneDish
 

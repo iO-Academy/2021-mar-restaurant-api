@@ -3,7 +3,7 @@ const OrderController = require('../Controllers/OrderController')
 const DishesController = require('../Controllers/DishesController')
 
 const routes = (app) => {
-    app.get ('/dishes/:id', OrderController.getDishPriceById)
+    app.get ('/dishes/:id', DishesController.getOneDish)
     app.get('/dishes', DishesController.getAllDishes)
     app.get('/dishes/:course', DishesController.getAllDishesOfType)
     app.post('/orders', OrderController.createNewOrder)

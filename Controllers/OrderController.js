@@ -83,7 +83,7 @@ let getDishPriceById = (req, res) => {
     DbService.connectToDb(async (db) => {
         const dishId = ObjectId(req.params.id)
         const dish = await DishesService.getDishPriceById(db, dishId)
-        return dish.price
+        return res.json(dish.price)
     })
 }
 
