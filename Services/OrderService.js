@@ -70,10 +70,10 @@ let getDishPriceById = async (db, dishId) => {
 }
 
 module.exports.createNewOrder = createNewOrder
-module.exports.submitFinalOrder = submitFinalOrder
 module.exports.getOrderDetails = getOrderDetails
+module.exports.removeOrderItem = removeOrderItem
+module.exports.submitFinalOrder = submitFinalOrder
 module.exports.addItemsToOrder = addItemsToOrder
 module.exports.getDishPriceById = getDishPriceById
-module.exports.removeOrderItem = removeOrderItem
 
 

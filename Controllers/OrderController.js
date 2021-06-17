@@ -3,8 +3,11 @@ const OrderService = require('../Services/OrderService')
 const JSONResponseService = require('../Services/JSONResponseService')
 const PriceService = require('../Services/PriceService')
 const ObjectId = require('mongodb').ObjectId
+
 const orderValidate = require('../Validators/newOrderValidator.json')
 const addToOrderValidate = require('../Validators/addItemsToOrderValidator.json')
+const idRemoveValidator = require('../Validators/removeOrderItem.json')
+
 const Ajv = require('ajv')
 const addFormats = require('ajv-formats')
 
@@ -89,7 +92,6 @@ let submitFinalOrder = (req, res) => {
             const totalPrice = await PriceService.calculateTotalPrice(db, finalisedOrder)
             const submittedOrder = await OrderService.submitFinalOrder(db, order, totalPrice)
             if (submittedOrder.modifiedCount === 1) {
-
                 let response = JSONResponseService.generateSuccessResponse()
                 response.data = await OrderService.getOrderDetails(db, order.orderId)
                 response.message = "The order has been placed"
@@ -129,23 +131,34 @@ let removeOrderItem = (req, res) => {
             orderId: ObjectId(req.body.orderId),
             menuItemId: req.body.menuItemId,
         }
-        const removeOrder = await OrderService.removeOrderItem(db, item)
-        if(removeOrder.modifiedCount === 1) {
-            let response  = JSONResponseService.generateSuccessResponse()
-            response.message = "All dishes of this quantity successfully deleted from order"
-            return res.json(response)
+        const idValidator = ajv.compile(idRemoveValidator)
+        const valid = idValidator(item)
+        if (valid) {
+            try {
+                const removedOrder = await OrderService.removeOrderItem(db, item)
+                if (removedOrder.modifiedCount === 1) {
+                    let response  = JSONResponseService.generateSuccessResponse()
+                    response.message = "Item removed"
+                    response.data = removedOrder.ops
+                    return res.json(response)
+                }
+            } catch (e) {
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "Database request failed"
+                return res.json(response)
+            }
         }
         let response = JSONResponseService.generateFailureResponse()
-        response.message = "Item was not deleted from order"
+        response.message = "Validator failed"
         return res.json(response)
-    } )
+    })
 }
 
 
 module.exports.createNewOrder = createNewOrder
+module.exports.getOrderDetails = getOrderDetails
+module.exports.removeOrderItem = removeOrderItem
 module.exports.submitFinalOrder = submitFinalOrder
 module.exports.addToOrder = addToOrder
 module.exports.getDishPriceById = getDishPriceById
-module.exports.getOrderDetails = getOrderDetails
-module.exports.removeOrderItem = removeOrderItem
 
