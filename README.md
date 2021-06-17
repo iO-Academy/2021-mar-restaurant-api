@@ -41,7 +41,7 @@
 | :------------- | :----------: | :----------: |
 | timePlaced   | Time order was submitted by customer | Date |
 | deliveryTime   | Time of anticipated delivery | Date |
-##### Fields updated in restaurant.orders documents order is submitted
+##### Fields updated in restaurant.orders documents when order is submitted
 | Property      | Value     | Type     |
 | :------------- | :----------: | :----------: |
 | isOrderSubmitted | Has the customer submitted final order -> updated to true | Bool |
@@ -482,22 +482,33 @@ fetch('http://localhost:3000/orders', {
 ```
 ##### Success Response
 ```json
-   {
-        "success": true,
-        "message": "The order has been placed",
-        "status": 200,
-        "data": {
-            "_id": "60c73afb0b5f5c23d4a61688",
-            "name": "isabelle",
-            "deliveryAddress": "bse 93b",
-            "email": "isabelle@hotmail.co.uk",
-            "orderItems": [],
+{
+    "success": true,
+    "message": "The order has been placed",
+    "status": 200,
+    "data": {
+            "_id": "60cb57c4959bb8382ed99e4d",
+            "name": "Mashley Coles",
+            "firstLineOfAddress": "1 Widcombe Crescent",
+            "postcode": "BA2 6AH",
+            "email": "deliciousFood@food.com",
+            "totalCost": 0,
             "isOrderSubmitted": true,
-            "timePlaced": "2021-06-17T08:42:53.925Z",
-            "totalPrice": 0,
-            "deliveryTime": "2021-06-17T09:22:53.925Z"
-          }
-    }
+            "orderItems": [
+                           {
+                             "menuItemId": "60c73a660b5f5c23d4a61686",
+                             "quantity": 4
+                           },
+                           {
+                             "menuItemId": "60c73a880b5f5c23d4a61687",
+                             "quantity": 4
+                           }
+                          ],
+            "deliveryTime": "2021-06-17T14:49:50.346Z",
+            "timePlaced": "2021-06-17T14:49:50.346Z",
+            "totalPrice": 43.92
+           }
+}
 ```
 ##### Error Responses
 If the order has already been submitted
