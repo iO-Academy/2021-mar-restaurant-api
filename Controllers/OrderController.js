@@ -161,7 +161,7 @@ let removeOrderItem = (req, res) => {
                 }
             } catch (e) {
                 let response = JSONResponseService.generateFailureResponse()
-                response.message = "Database request failed"
+                response.message = "An error has occurred"
                 return res.json(response)
             }
         }
