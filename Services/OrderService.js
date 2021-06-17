@@ -58,6 +58,12 @@ let removeOrderItem = async (db, item) => {
     return result
 }
 
+const getDeliveryTime = (date) => {
+    const deliveryTime = Math.floor(Math.random() * (45 - 25) + 25)
+    date.setMinutes(date.getMinutes() + deliveryTime)
+    return date
+}
+
 module.exports.createNewOrder = createNewOrder
 module.exports.addItemsToOrder = addItemsToOrder
 module.exports.editOrderItemQuantity = editOrderItemQuantity
