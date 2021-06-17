@@ -36,11 +36,12 @@
 | orderItems   | Holds object of each menu item id and quantity that customer has ordered | Array |
 | isOrderSubmitted | Has the customer submitted final order (set to false initially) | Bool |
 | totalPrice   | Price of all items in orderItems (set to 0 initially) | int |
-##### Fields added to restaurant.orders documents when order is reviewed for submission
+##### Fields added to restaurant.orders documents when order is submitted
 | Property      | Value     | Type     |
 | :------------- | :----------: | :----------: |
 | timePlaced   | Time order was submitted by customer | Date |
-##### Fields updated in restaurant.orders documents order is reviewed for submission
+| deliveryTime   | Time of anticipated delivery | Date |
+##### Fields updated in restaurant.orders documents order is submitted
 | Property      | Value     | Type     |
 | :------------- | :----------: | :----------: |
 | isOrderSubmitted | Has the customer submitted final order -> updated to true | Bool |
@@ -493,7 +494,8 @@ fetch('http://localhost:3000/orders', {
             "orderItems": [],
             "isOrderSubmitted": true,
             "timePlaced": "2021-06-17T08:42:53.925Z",
-            "totalPrice": 0
+            "totalPrice": 0,
+            "deliveryTime": "2021-06-17T09:22:53.925Z"
           }
     }
 ```

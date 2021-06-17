@@ -7,14 +7,22 @@ let createNewOrder = async (db, order) => {
     return result
 }
 
+const getDeliveryTime = (date) => {
+    const deliveryTime = Math.floor(Math.random() * (45 - 25) + 25)
+    date.setMinutes(date.getMinutes() + deliveryTime)
+    return date
+}
+
 let submitFinalOrder = async  (db, order, totalPrice) => {
     const collection = db.collection('orders')
     const timePlaced = new Date()
+    const deliveryTime = getDeliveryTime(timePlaced)
     const result = await collection.updateOne(
         { _id: order.orderId},
-        {$set: {isOrderSubmitted: true, timePlaced: timePlaced, totalPrice: totalPrice}})
+        {$set: {isOrderSubmitted: true, timePlaced: timePlaced, totalPrice: totalPrice, deliveryTime: deliveryTime}})
     return result
 }
+
 
 let getOrderDetails = async (db, orderId) => {
     const collection = db.collection('orders')
