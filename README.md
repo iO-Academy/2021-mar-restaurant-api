@@ -65,6 +65,41 @@ fetch('http://localhost:3000/dishes')
     "status": 404
 }
 ```
+#### Retrieving a single dish
+`GET /dishes/:id`
+##### Sample Call
+```javascript
+fetch('http://localhost:3000/orders/:id')
+      .then (res => res.json())
+      .then ((data) => {
+         //do stuff with your data
+      })
+```
+##### Success Response
+```json
+{
+    "success": true,
+    "message": "Requested dish retrieved successfully.",
+    "status": 200,
+    "data": {
+        "_id": "60c73a660b5f5c23d4a61686",
+        "name": "tarte tatin",
+        "description": "apple with vanilla icecream",
+        "price": {
+            "$numberDecimal": "7.99"
+        },
+        "dishType": "desserts"
+    }
+}
+```
+##### Error Response
+```json
+   {
+      "success": false,
+      "message": "The resources requested do not exist at the desired location.",
+      "status": 404
+   }
+```
 #### Retrieving final order
 `GET /orders/:id`
 ##### Sample Call
@@ -73,8 +108,7 @@ fetch('http://localhost:3000/dishes')
       .then (res => res.json())
       .then ((data) => {
          //do stuff with your data
-         })
-        })
+    })
 ```
 ##### Success Response
 ```json
