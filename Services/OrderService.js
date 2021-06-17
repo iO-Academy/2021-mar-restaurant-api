@@ -63,17 +63,11 @@ let removeOrderItem = async (db, item) => {
     return result
 }
 
-let getDishPriceById = async (db, dishId) => {
-    const collection = db.collection('dishes')
-    const dish = await collection.findOne({_id: dishId})
-    return dish.price
-}
 
 module.exports.createNewOrder = createNewOrder
 module.exports.getOrderDetails = getOrderDetails
 module.exports.removeOrderItem = removeOrderItem
 module.exports.submitFinalOrder = submitFinalOrder
 module.exports.addItemsToOrder = addItemsToOrder
-module.exports.getDishPriceById = getDishPriceById
 
 

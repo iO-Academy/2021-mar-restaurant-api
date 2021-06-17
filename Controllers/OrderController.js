@@ -1,5 +1,6 @@
 const DbService = require('../Services/DbService')
 const OrderService = require('../Services/OrderService')
+const DishesService = require('../Services/DishesService')
 const JSONResponseService = require('../Services/JSONResponseService')
 const PriceService = require('../Services/PriceService')
 const ObjectId = require('mongodb').ObjectId
@@ -81,7 +82,7 @@ const addToOrder = (req, res) => {
 let getDishPriceById = (req, res) => {
     DbService.connectToDb(async (db) => {
         const dishId = ObjectId(req.params.id)
-        const dish = await OrderService.getDishPriceById(db, dishId)
+        const dish = await DishesService.getDishPriceById(db, dishId)
         return dish.price
     })
 }
