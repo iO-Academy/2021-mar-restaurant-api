@@ -428,7 +428,7 @@ If the quantity of the selected dish is already equal to the requested quantity:
 ```
 
 ### Remove an item (in any quantity) from an order
-`PUT /orders/removeDish`
+`PUT /orders`
 
 This endpoint allows you to remove an item entirely from an order.
 ##### Data Params
