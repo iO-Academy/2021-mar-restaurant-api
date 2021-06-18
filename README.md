@@ -41,7 +41,7 @@
 | :------------- | :----------: | :----------: |
 | timePlaced   | Time order was submitted by customer | Date |
 | deliveryTime   | Time of anticipated delivery | Date |
-##### Fields updated in restaurant.orders documents order is submitted
+##### Fields updated in restaurant.orders documents when order is submitted
 | Property      | Value     | Type     |
 | :------------- | :----------: | :----------: |
 | isOrderSubmitted | Has the customer submitted final order -> updated to true | Bool |
@@ -77,6 +77,7 @@ fetch('http://localhost:3000/dishes/:course')
   "data": [{dish}, {dish}, {dish}]
 }
 ```
+
 ##### Error Responses
 
 If there is an issue connecting with the database.
@@ -96,16 +97,18 @@ If you try to find dishes for a course that does not exist.
   "status": 400
 }
 ```
+
 ### Retrieving a single dish
-`GET /dishes/:id`
+`GET /dishes/individualDishes/:id`
 ##### Sample Call
 ```javascript
-fetch('http://localhost:3000/orders/:id')
+fetch('http://localhost:3000/dishes/individualDishes/:id')
     .then (res => res.json())
     .then ((data) => {
         //do stuff with your data
     })
 ```
+
 ##### Success Response
 ```json
 {
@@ -125,7 +128,7 @@ fetch('http://localhost:3000/orders/:id')
 ```
 ##### Error Response
 ```json
-   {
+{
   "success": false,
   "message": "The resources requested do not exist at the desired location.",
   "status": 404
@@ -166,7 +169,6 @@ fetch('http://localhost:3000/dishes/individualDishes/:id')
 ##### Error Responses
 
 If there is an issue interacting with the database
-
 ```json
 {
   "success": false,
@@ -189,7 +191,7 @@ If the id is invalid
 
 ##### Sample Call
 ```javascript
-   fetch('http://localhost:3000/orders/:id')
+fetch('http://localhost:3000/orders/:id')
     .then (res => res.json())
     .then ((data) => {
         //do stuff with your data
@@ -210,7 +212,7 @@ If the id is invalid
 ```
 ##### Error Response
 ```json
-   {
+{
   "success": false,
   "message": "The resources requested do not exist at the desired location.",
   "status": 404
@@ -224,7 +226,7 @@ If the id is invalid
 This endpoint allows you to create a new order.
 ##### Data Params
 ```json
-  {
+{
   "name": "Ashley Coles",
   "firstLineOfAddress": "1 Widcombe Crescent",
   "postcode": "BA2 6AH",
@@ -246,7 +248,8 @@ fetch('http://localhost:3000/orders', {
                 //do stuff with your data
             })
 })
-```    
+```
+
 ##### Success Response
 ```json
 {
@@ -262,6 +265,7 @@ fetch('http://localhost:3000/orders', {
   }]
 }
 ```
+
 ##### Error Responses
 If the validator fails
 ```json
@@ -271,6 +275,7 @@ If the validator fails
   "status": 404
 }
 ```
+
 If the request fails to connect to the database
 ```json
 {
@@ -279,6 +284,7 @@ If the request fails to connect to the database
   "status": 404
 }
 ```
+
 ### PUT
 ### Adding items to an order
 `PUT /orders/addToOrder`  
@@ -311,6 +317,7 @@ fetch('http://localhost:3000/orders/addToOrder', {
         })
 })
 ```
+
 ##### Success Response
 ```json
 {
@@ -319,6 +326,7 @@ fetch('http://localhost:3000/orders/addToOrder', {
   "status": 200
 }
 ```
+
 ##### Error Responses
 If the id has no match in the database
 ```json
@@ -328,6 +336,7 @@ If the id has no match in the database
     "status": 400
 }
 ```
+
 If validation fails
 ```json
 {
@@ -399,7 +408,6 @@ If there is an issue connecting with the database.
   "status": 400
 }
 ```
-
 
 If the dish in not present in the order:
 ```json
@@ -475,6 +483,8 @@ This endpoint will send your order to the restaurant and cannot be taken back.
     "orderId": "60c73afb0b5f5c23d4a61688"
 }
 ```
+
+
 ##### Sample Call
 ```javascript
 fetch('http://localhost:3000/orders/submitOrder', {
@@ -490,6 +500,7 @@ fetch('http://localhost:3000/orders/submitOrder', {
             })
 })
 ```
+
 ##### Success Response
 ```json
 {
@@ -515,6 +526,7 @@ fetch('http://localhost:3000/orders/submitOrder', {
   }
 }
 ```
+
 ##### Error Responses
 If the order has already been submitted
 ```json
@@ -524,6 +536,7 @@ If the order has already been submitted
   "status": 404
 }
 ```
+
 If there is an issue connecting to the database
 ```json
    {
