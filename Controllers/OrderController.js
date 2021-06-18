@@ -215,12 +215,16 @@ let removeOrderItem = (req, res) => {
                     response.data = removedOrder.ops
                     return res.json(response)
                 }
+                let response = JSONResponseService.generateFailureResponse()
+                response.message = "This item has already been removed"
+                return res.json(response)
             } catch (e) {
                 let response = JSONResponseService.generateFailureResponse()
                 response.message = "An error has occurred"
                 return res.json(response)
             }
         }
+
         let response = JSONResponseService.generateFailureResponse()
         response.message = "Validator failed"
         return res.json(response)
