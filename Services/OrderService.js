@@ -15,11 +15,10 @@ const getDeliveryTime = (date) => {
 
 const submitFinalOrder = async  (db, order, totalPrice) => {
     const collection = db.collection('orders')
-    const timePlaced = new Date()
-    const deliveryTime = getDeliveryTime(timePlaced)
+    const deliveryTime = getDeliveryTime(new Date())
     const result = await collection.updateOne(
         { _id: order.orderId},
-        {$set: {isOrderSubmitted: true, timePlaced: timePlaced, totalPrice: totalPrice, deliveryTime: deliveryTime}})
+        {$set: {isOrderSubmitted: true, timePlaced: new Date(), totalPrice: totalPrice, deliveryTime: deliveryTime}})
     return result
 }
 
